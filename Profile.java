@@ -10,8 +10,6 @@ public class Profile {
     public Profile(String name, int age, Address add) {
         this.name = name;
         this.age = age;
-        this.friends = null;
-        this.interest = null;
         this.add = add;
     }
 
@@ -44,11 +42,26 @@ public class Profile {
     }
 
     public void AddNewFriend(Profile newfrnd) {
+        // System.out.println(this);
+        // System.out.println(newfrnd);
+        if (this.friends.size() == 0) {
+            System.out.println("True here ");
+            this.friends.add(newfrnd);
+            newfrnd.getFriends().add(this);
+        }
+        for (int i = 0; i < this.friends.size(); i++) {
+            if (this.friends.get(i) == newfrnd) {
+                System.out.println("Frnd Already exist ");
+                return;
+            }
+        }
         this.friends.add(newfrnd);
+        newfrnd.getFriends().add(this);
     }
 
     public void RemoveFriend(Profile newfrnd) {
         this.friends.remove(newfrnd);
+        newfrnd.friends.remove(this);
     }
 
     public ArrayList<String> getInterest() {
@@ -69,5 +82,4 @@ public class Profile {
                 + add + "]";
     }
 
-    
 }

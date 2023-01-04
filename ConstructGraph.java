@@ -4,11 +4,11 @@ import java.util.ArrayList;
 public class ConstructGraph {
 
     ArrayList<Profile> AllNodes = new ArrayList<>();
-    int[][] graph;
+    int[][] graph = new int[5][5];
 
     public ConstructGraph(ArrayList<Profile> allNodes) {
         AllNodes = allNodes;
-        int NodeNum = -1; // Check with node is iterating and also used to create graph links
+        int NodeNum = -1; // Check which node is iterating and also used to create graph links
         for (Profile i : allNodes) { // Logic to create the graph
             NodeNum++;
             ArrayList<Profile> frnds = i.getFriends();
@@ -24,6 +24,10 @@ public class ConstructGraph {
 
             }
         }
+    }
+
+    public int[][] RetrieveGraph() {
+        return graph;
     }
 
 }
