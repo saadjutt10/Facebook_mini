@@ -31,7 +31,6 @@ public class Profile {
         this.age = age;
     }
 
-    
     public Address getAdd() {
         return add;
     }
@@ -40,21 +39,20 @@ public class Profile {
         this.add = add;
     }
 
-    
     public ArrayList<Profile> getFriends() {
         return friends;
     }
 
-    public void setFriends(ArrayList<Profile> friends) {
-        this.friends = friends;
+    public void AddNewFriend(Profile newfrnd) {
+        this.friends.add(newfrnd);
     }
 
     public ArrayList<String> getInterest() {
         return interest;
     }
 
-    public void setInterest(ArrayList<String> interest) {
-        this.interest = interest;
+    public void AddNewInterest(String newint) {
+        this.interest.add(newint);
     }
 
 }
