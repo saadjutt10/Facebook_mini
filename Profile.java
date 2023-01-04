@@ -59,9 +59,22 @@ public class Profile {
         newfrnd.getFriends().add(this);
     }
 
-    public void RemoveFriend(Profile newfrnd) {
-        this.friends.remove(newfrnd);
-        newfrnd.friends.remove(this);
+    public void RemoveFriend(Profile del) {
+        // System.out.println(this);
+        // System.out.println(newfrnd);
+        if (this.friends.size() == 0) {
+            System.out.println("he got no frnds");
+            return;
+        }
+        for (int i = 0; i < this.friends.size(); i++) {
+            if (this.friends.get(i) == del) {
+               this.friends.remove(del);
+               del.getFriends().remove(this);
+               System.out.println("Removed");
+                return;
+            }
+        }
+        System.out.println(" Not his frnd ");
     }
 
     public ArrayList<String> getInterest() {

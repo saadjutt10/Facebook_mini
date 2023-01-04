@@ -69,7 +69,11 @@ public class Main_With_IO {
             if (node == i) {
                 temp = i;
                 allNodes.remove(i);
-                try {
+                // When that oject is found we need to delte all other nodes relation with it
+                for (Profile nodes : allNodes) {
+                    nodes.RemoveFriend(temp);
+                }
+                try { // Writting back to file
                     ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file));
                     for (Profile j : allNodes) {
                         oos.writeObject(j);
@@ -79,8 +83,7 @@ public class Main_With_IO {
                     e.printStackTrace();
                 }
                 break;
-            }
-            else{
+            } else {
                 System.out.println("No such node found");
             }
         }

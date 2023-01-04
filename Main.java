@@ -15,6 +15,13 @@ public class Main {
         System.out.println("===================\n");
     }
 
+    public static int[][] reconstructGraph(ArrayList<Profile> allNodes) {
+        ConstructGraph g1 = new ConstructGraph(allNodes);
+        int[][] graph = new int[allNodes.size()][allNodes.size()];
+        graph = g1.RetrieveGraph();
+        return graph;
+    }
+
     public static void main(String[] args) {
 
         // NodeA
@@ -34,7 +41,7 @@ public class Main {
         Address AddE = new Address("Islamabad", 13, 10);
         Profile nodeE = new Profile("Huzaifa", 20, AddE);
 
-        // Adding Frnds of A 
+        // Adding Frnds of A
         nodeA.AddNewFriend(nodeE);
         nodeA.AddNewFriend(nodeB);
         // Adding Frnds of B
@@ -51,13 +58,21 @@ public class Main {
         allNodes.add(nodeD);
         allNodes.add(nodeE);
         System.out.println("List of frnds created ");
-        for(Profile i : nodeA.getFriends()){
-            System.out.println(i.getName() );
+        for (Profile i : nodeA.getFriends()) {
+            System.out.println(i.getName());
         }
-
         ConstructGraph g1 = new ConstructGraph(allNodes); // Initialising the construct graph object
         int[][] graph = new int[allNodes.size()][allNodes.size()];
-        graph = g1.RetrieveGraph();
+        graph = reconstructGraph(allNodes);
+        displayMatrix(graph);
+
+        nodeA.RemoveFriend(nodeE);
+
+        graph = reconstructGraph(allNodes); // Every time a change happends in nodes it needs to be reconstructed
+        displayMatrix(graph);
+
+        nodeE.AddNewFriend(nodeA);
+        graph = reconstructGraph(allNodes); // Every time a change happends in nodes it needs to be reconstructed
         displayMatrix(graph);
 
     }
