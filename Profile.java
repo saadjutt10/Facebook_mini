@@ -47,6 +47,10 @@ public class Profile {
         this.friends.add(newfrnd);
     }
 
+    public void RemoveFriend(Profile newfrnd) {
+        this.friends.remove(newfrnd);
+    }
+
     public ArrayList<String> getInterest() {
         return interest;
     }
@@ -55,4 +59,15 @@ public class Profile {
         this.interest.add(newint);
     }
 
+    public void RemoveInterest(String newint) {
+        this.interest.remove(newint);
+    }
+
+    @Override
+    public String toString() {
+        return "Profile [name=" + name + ", age=" + age + ", friends=" + friends + ", interest=" + interest + ", add="
+                + add + "]";
+    }
+
+    
 }
