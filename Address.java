@@ -38,6 +38,7 @@ public class Address implements Comparable<Address> {
         if (this.city.equals(o.getCity())) {
             return 0;
         }
+        
         return 0;
     }
 
