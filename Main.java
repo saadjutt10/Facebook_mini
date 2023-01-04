@@ -34,7 +34,7 @@ public class Main {
         Address AddE = new Address("Islamabad", 13, 10);
         Profile nodeE = new Profile("Huzaifa", 20, AddE);
 
-        // Adding Frnds of A
+        // Adding Frnds of A 
         nodeA.AddNewFriend(nodeE);
         nodeA.AddNewFriend(nodeB);
         // Adding Frnds of B
@@ -54,7 +54,7 @@ public class Main {
         for(Profile i : nodeA.getFriends()){
             System.out.println(i.getName() );
         }
-        
+
         ConstructGraph g1 = new ConstructGraph(allNodes); // Initialising the construct graph object
         int[][] graph = new int[allNodes.size()][allNodes.size()];
         graph = g1.RetrieveGraph();
