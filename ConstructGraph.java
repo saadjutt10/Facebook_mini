@@ -20,14 +20,14 @@ public class ConstructGraph implements Serializable {
                                                                                       // node with all nodes to check if
                                                                                       // there are frnds
                     if (curr.equals(AllNodes.get(nodesIndex))) {
-                        System.out.println("One ");
+                        // System.out.println("One ");
                         graph[NodeNum][nodesIndex] = 1;
                     }
-                    else{
+                    else{/* 
                         System.out.println(curr);
                         System.out.println("Here");
                         System.out.println(AllNodes.get(nodesIndex));
-                        System.out.println("========");
+                        System.out.println("========"); */
                     }
                 }
 

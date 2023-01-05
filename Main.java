@@ -27,7 +27,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        // NodeA
+      /*   // NodeA
         Address AddA = new Address("Islamabad", 3, 10);
         Profile nodeA = new Profile("Saad", 19, AddA);
         // NodeB
@@ -42,7 +42,7 @@ public class Main {
         // NodeE
         Address AddE = new Address("Islamabad", 13, 10);
         Profile nodeE = new Profile("Huzaifa", 20, AddE);
-        String fileName = "Data.txt";
+     
 
         // Adding Frnds of A
         nodeA.AddNewFriend(nodeE);
@@ -52,44 +52,48 @@ public class Main {
         // Adding Frnds of C
         nodeC.AddNewFriend(nodeE);
         // Adding Frnds of D
-        nodeD.AddNewFriend(nodeC);
+        nodeD.AddNewFriend(nodeC); */
 
-        // Reading data from file
-        ArrayList<Profile> allNodes = new ArrayList<>();
-
-        allNodes.add(nodeA);
+//Adding nodes to list and writting list to file
+         /*      allNodes.add(nodeA);
         allNodes.add(nodeB);
         allNodes.add(nodeC);
         allNodes.add(nodeD);
-        allNodes.add(nodeE);
+        allNodes.add(nodeE); */
 
         // Writting data to file
-        Main_With_IO.writeData(allNodes, fileName);
-        // allNodes = Main_With_IO.getAllNodes(fileName);
+        // Main_With_IO.writeData(allNodes, fileName);
+
+
+        // Reading data from file
+
+        ArrayList<Profile> allNodes = new ArrayList<>();
+        String fileName = "Data.txt";
+  
+         allNodes = Main_With_IO.getAllNodes(fileName);
         // System.out.println("List of frnds created ");
-        System.out.println(allNodes.get(0).getFriends());
+        // System.out.println(allNodes.get(0).getFriends());
         System.out.println("List of frnds created ");
-        for (Profile i : allNodes.get(0).getFriends()) {
-            System.out.println(i.getName());
-        }
+/*         for (Profile i : allNodes.get(0).getFriends()) {
+            System.out.println(i);
+        } */
+        System.out.println("List Tested  ");
         ConstructGraph g1 = new ConstructGraph(allNodes); // Initialising the construct graph object
         int[][] graph = new int[allNodes.size()][allNodes.size()];
         // graph = g1.RetrieveGraph();
         graph = reconstructGraph(allNodes);
         displayMatrix(graph);
 
-        /*
-         * nodeA.RemoveFriend(nodeE);
-         * 
-         * graph = reconstructGraph(allNodes); // Every time a change happends in nodes
-         * it needs to be reconstructed
-         * displayMatrix(graph);
-         * 
-         * nodeE.AddNewFriend(nodeA);
-         * graph = reconstructGraph(allNodes); // Every time a change happends in nodes
-         * it needs to be reconstructed
-         * displayMatrix(graph);
-         */
+        
+          allNodes.get(0).RemoveFriend(allNodes.get(4));
+          
+          graph = reconstructGraph(allNodes); // Every time a change happends in nodes it needs to be reconstructed
+          displayMatrix(graph);
+          
+          allNodes.get(0).AddNewFriend(allNodes.get(4));
+          graph = reconstructGraph(allNodes); // Every time a change happends in nodes it needs to be reconstructed
+         displayMatrix(graph);
+        
 
     }
 

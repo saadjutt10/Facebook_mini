@@ -57,10 +57,7 @@ public class Main_With_IO implements Serializable {
         if (f.exists()) {
             try {
                 ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
-                while (true) {
-                    Profile node = (Profile) ois.readObject();
-                    allNodes.add(node);
-                }
+                allNodes = (ArrayList<Profile>) ois.readObject();
             } catch (ClassNotFoundException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
