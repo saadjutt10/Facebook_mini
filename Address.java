@@ -1,4 +1,6 @@
-public class Address implements Comparable<Address> {
+import java.io.Serializable;
+
+public class Address implements Comparable<Address>,Serializable {
     private String city;
     private int streetNo;
     private int houseNo;

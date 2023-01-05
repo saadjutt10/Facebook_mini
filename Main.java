@@ -5,9 +5,11 @@ import javafx.scene.effect.DisplacementMap;
 
 public class Main {
 
+    static int V = 5;
+
     public static void displayMatrix(int mat[][]) {
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5; j++) {
+        for (int i = 0; i < V; i++) {
+            for (int j = 0; j < V; j++) {
                 System.out.print(mat[i][j] + " ");
             }
             System.out.println();
@@ -19,6 +21,7 @@ public class Main {
         ConstructGraph g1 = new ConstructGraph(allNodes);
         int[][] graph = new int[allNodes.size()][allNodes.size()];
         graph = g1.RetrieveGraph();
+        // displayMatrix(graph);
         return graph;
     }
 
@@ -27,7 +30,6 @@ public class Main {
         // NodeA
         Address AddA = new Address("Islamabad", 3, 10);
         Profile nodeA = new Profile("Saad", 19, AddA);
-
         // NodeB
         Address AddB = new Address("Islamabad", 2, 10);
         Profile nodeB = new Profile("Ammar", 18, AddB);
@@ -40,6 +42,7 @@ public class Main {
         // NodeE
         Address AddE = new Address("Islamabad", 13, 10);
         Profile nodeE = new Profile("Huzaifa", 20, AddE);
+        String fileName = "Data.txt";
 
         // Adding Frnds of A
         nodeA.AddNewFriend(nodeE);
@@ -51,29 +54,42 @@ public class Main {
         // Adding Frnds of D
         nodeD.AddNewFriend(nodeC);
 
+        // Reading data from file
         ArrayList<Profile> allNodes = new ArrayList<>();
+
         allNodes.add(nodeA);
         allNodes.add(nodeB);
         allNodes.add(nodeC);
         allNodes.add(nodeD);
         allNodes.add(nodeE);
+
+        // Writting data to file
+        Main_With_IO.writeData(allNodes, fileName);
+        // allNodes = Main_With_IO.getAllNodes(fileName);
+        // System.out.println("List of frnds created ");
+        System.out.println(allNodes.get(0).getFriends());
         System.out.println("List of frnds created ");
-        for (Profile i : nodeA.getFriends()) {
+        for (Profile i : allNodes.get(0).getFriends()) {
             System.out.println(i.getName());
         }
         ConstructGraph g1 = new ConstructGraph(allNodes); // Initialising the construct graph object
         int[][] graph = new int[allNodes.size()][allNodes.size()];
+        // graph = g1.RetrieveGraph();
         graph = reconstructGraph(allNodes);
         displayMatrix(graph);
 
-        nodeA.RemoveFriend(nodeE);
-
-        graph = reconstructGraph(allNodes); // Every time a change happends in nodes it needs to be reconstructed
-        displayMatrix(graph);
-
-        nodeE.AddNewFriend(nodeA);
-        graph = reconstructGraph(allNodes); // Every time a change happends in nodes it needs to be reconstructed
-        displayMatrix(graph);
+        /*
+         * nodeA.RemoveFriend(nodeE);
+         * 
+         * graph = reconstructGraph(allNodes); // Every time a change happends in nodes
+         * it needs to be reconstructed
+         * displayMatrix(graph);
+         * 
+         * nodeE.AddNewFriend(nodeA);
+         * graph = reconstructGraph(allNodes); // Every time a change happends in nodes
+         * it needs to be reconstructed
+         * displayMatrix(graph);
+         */
 
     }
 

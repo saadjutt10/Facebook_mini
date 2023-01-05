@@ -1,7 +1,21 @@
 import java.io.*;
 import java.util.ArrayList;
 
-public class Main_With_IO {
+public class Main_With_IO implements Serializable {
+
+    public static void writeData(ArrayList<Profile> s, String file) {
+        try {
+            File f = new File(file);
+            ObjectOutputStream oos;
+
+            oos = new ObjectOutputStream(new FileOutputStream(f));
+            // System.out.println("Inside else");
+            oos.writeObject(s);
+            oos.close();
+        } catch (IOException e) {
+            System.out.println("IO Exception occured");
+        }
+    }
 
     public static void ReadData(String file) {
         try {
@@ -89,4 +103,5 @@ public class Main_With_IO {
         }
         return temp;
     }
+
 }

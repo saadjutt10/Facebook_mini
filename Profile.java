@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Profile {
+public class Profile implements Serializable{
     private String name;
     private int age;
     ArrayList<Profile> friends = new ArrayList<>();
@@ -12,6 +13,7 @@ public class Profile {
         this.age = age;
         this.add = add;
     }
+
 
     public String getName() {
         return name;
@@ -89,9 +91,10 @@ public class Profile {
         this.interest.remove(newint);
     }
 
+
     @Override
     public String toString() {
-        return "Profile [name=" + name + ", age=" + age + ", friends=" + friends + ", interest=" + interest + ", add="
+        return "Profile [name=" + name + ", age=" + age +/*  ", friends=" + friends + ", interest=" + interest +  */", add="
                 + add + "]";
     }
 
