@@ -5,21 +5,22 @@ import javafx.scene.effect.DisplacementMap;
 
 public class Main {
 
-    static int V = 5;
+    static int V ;
 
-    public static void displayMatrix(int mat[][]) {
+    public static void displayMatrix(ArrayList<ArrayList<Integer>> mat) {
         for (int i = 0; i < V; i++) {
             for (int j = 0; j < V; j++) {
-                System.out.print(mat[i][j] + " ");
+                System.out.print(mat.get(i).get(j) + " ");
             }
             System.out.println();
         }
         System.out.println("===================\n");
     }
 
-    public static int[][] reconstructGraph(ArrayList<Profile> allNodes) {
+
+    public static  ArrayList<ArrayList<Integer>> reconstructGraph(ArrayList<Profile> allNodes) {
         ConstructGraph g1 = new ConstructGraph(allNodes);
-        int[][] graph = new int[allNodes.size()][allNodes.size()];
+        ArrayList<ArrayList<Integer>> graph = new ArrayList<>(allNodes.size());
         graph = g1.RetrieveGraph();
         // displayMatrix(graph);
         return graph;
@@ -65,21 +66,22 @@ public class Main {
         // Main_With_IO.writeData(allNodes, fileName);
 
 
-        // Reading data from file
+        //******************************************************/ Reading data from file
 
         ArrayList<Profile> allNodes = new ArrayList<>();
         String fileName = "Data.txt";
   
-         allNodes = Main_With_IO.getAllNodes(fileName);
+        allNodes = Main_With_IO.getAllNodes(fileName);
+        V=allNodes.size();
         // System.out.println("List of frnds created ");
         // System.out.println(allNodes.get(0).getFriends());
         System.out.println("List of frnds created ");
-/*         for (Profile i : allNodes.get(0).getFriends()) {
+        /*for (Profile i : allNodes.get(0).getFriends()) {
             System.out.println(i);
         } */
         System.out.println("List Tested  ");
         ConstructGraph g1 = new ConstructGraph(allNodes); // Initialising the construct graph object
-        int[][] graph = new int[allNodes.size()][allNodes.size()];
+        ArrayList<ArrayList<Integer>> graph = new ArrayList<>(V);
         // graph = g1.RetrieveGraph();
         graph = reconstructGraph(allNodes);
         displayMatrix(graph);
