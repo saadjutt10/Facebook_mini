@@ -14,9 +14,9 @@ public class Main {
         Address AddA = new Address(city, streetNo, houseNo);
         Profile nodeA = new Profile(name, age, AddA);
         allNodes.add(nodeA);
-        ConstructGraph g1 = new ConstructGraph(allNodes); // Initialising the construct graph object
         ArrayList<ArrayList<Integer>> graph = new ArrayList<>(++V);
         Main_With_IO.writeData(allNodes, fileName);
+        ConstructGraph g1 = new ConstructGraph(allNodes); // Initialising the construct graph object
         return graph = reconstructGraph(allNodes);
     }
 
@@ -37,7 +37,8 @@ public class Main {
         return graph = reconstructGraph(allNodes);
     }
 
-    public static void addFriend(ArrayList<ArrayList<Integer>> graph, ArrayList<Profile> allNodes, String nodeA,
+    public static ArrayList<ArrayList<Integer>> addFriend(ArrayList<ArrayList<Integer>> graph,
+            ArrayList<Profile> allNodes, String nodeA,
             String nodeB) {
 
         int A = 0;
@@ -66,17 +67,21 @@ public class Main {
             System.out.println("One or both nodes are not present in our system");
             System.out.println(tempA);
             System.out.println(tempB);
-            return;
+            return graph;
         }
 
         System.out.println("Size of list is " + allNodes.size());
         Main_With_IO.writeData(allNodes, fileName);// Updating data from file
-        ArrayList<Profile> tempList = Main_With_IO.getAllNodes(fileName);
-        allNodes = tempList;
-        graph = reconstructGraph(allNodes);
+
+        ArrayList<ArrayList<Integer>> graph1 = new ArrayList<>(V);
+        // ArrayList<Profile> tempList = Main_With_IO.getAllNodes(fileName);
+        // allNodes = tempList;
+        ConstructGraph g1 = new ConstructGraph(allNodes); // Initialising the construct graph object
+        graph1 = reconstructGraph(allNodes);
+        return graph1;
     }
 
-    public static void removeFriend(ArrayList<ArrayList<Integer>> graph, ArrayList<Profile> allNodes, String nodeA,
+    public static  ArrayList<ArrayList<Integer>> removeFriend(ArrayList<ArrayList<Integer>> graph, ArrayList<Profile> allNodes, String nodeA,
             String nodeB) {
 
         int A = 0;
@@ -105,13 +110,16 @@ public class Main {
             System.out.println("One or both nodes are not present in our system");
             System.out.println(tempA);
             System.out.println(tempB);
-            return;
+            return graph;
         }
 
         System.out.println("Size of list is " + allNodes.size());
         Main_With_IO.writeData(allNodes, fileName);// Updating data from file
-        allNodes=Main_With_IO.getAllNodes(fileName);
-        graph = reconstructGraph(allNodes);
+        // allNodes=Main_With_IO.getAllNodes(fileName);
+        
+        ArrayList<ArrayList<Integer>> graph1 = new ArrayList<>(V);
+        ConstructGraph g1 = new ConstructGraph(allNodes); // Initialising the construct graph object
+        return graph1 = reconstructGraph(allNodes);
     }
 
     public static void displayMatrix(ArrayList<ArrayList<Integer>> mat) {
@@ -204,6 +212,7 @@ public class Main {
          * it needs to be reconstructed
          * displayMatrix(graph);
          */
+        System.out.println(allNodes.get(allNodes.size() - 1).getName());
 
         // ******************************************************Removing and Adding new
         // Nodes */
@@ -211,9 +220,12 @@ public class Main {
         // Profile p=allNodes.get(allNodes.size()-1);
         // displayMatrix(graph);
         // Profile p=new Profile("Abdul Rehman", 19, null);
-        graph=removeNode(allNodes.get(allNodes.size()-1), allNodes);
+        // graph=removeNode(allNodes.get(allNodes.size()-1), allNodes);
         // addNode(p, allNodes);
-        // addFriend(graph, allNodes, "Saad", "Ali");     ////Havving issue here Not updating graph when method is called but is updated when re run the program
+        graph =removeFriend(graph, allNodes, "Saad", "Abdul Rehman");
+        // graph = addFriend(graph, allNodes, "Saad", "Abdul Rehman"); //// Havving issue here Not updating graph when
+                                                                    //// method is
+        //// called but is updated when re run the program
         displayMatrix(graph);
         // System.out.println(allNodes.get(allNodes.size()-3));
     }
