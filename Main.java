@@ -1,6 +1,8 @@
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+import javax.jws.soap.SOAPBinding.Use;
+
 import javafx.scene.effect.DisplacementMap;
 
 public class Main {
@@ -10,50 +12,48 @@ public class Main {
     static int V;// No of nodes in graph
 
     public static ArrayList<ArrayList<Integer>> addNode(String city, int streetNo, int houseNo, String name, int age,
-            ArrayList<Profile> allNodes) {
+            String gender, String cnic, String pswrd, String username,
+            ArrayList<User> allNodes) {
         Address AddA = new Address(city, streetNo, houseNo);
-        Profile nodeA = new Profile(name, age, AddA);
+        User nodeA = new User(name, age, gender, cnic, pswrd, username, AddA);
         allNodes.add(nodeA);
         ArrayList<ArrayList<Integer>> graph = new ArrayList<>(++V);
         Main_With_IO.writeData(allNodes, fileName);
-        ConstructGraph g1 = new ConstructGraph(allNodes); // Initialising the construct graph object
-        return graph = reconstructGraph(allNodes);
+        return graph = ConstructGraph.constGraph(allNodes);
     }
 
-    public static ArrayList<ArrayList<Integer>> addNode(Profile p, ArrayList<Profile> allNodes) {
+    public static ArrayList<ArrayList<Integer>> addNode(User p, ArrayList<User> allNodes) {
         allNodes.add(p);
-        ConstructGraph g1 = new ConstructGraph(allNodes); // Initialising the construct graph object
         ArrayList<ArrayList<Integer>> graph = new ArrayList<>(++V);
         Main_With_IO.writeData(allNodes, fileName);
-        return graph = reconstructGraph(allNodes);
+        return graph = ConstructGraph.constGraph(allNodes);
 
     }
 
-    public static ArrayList<ArrayList<Integer>> removeNode(Profile p, ArrayList<Profile> allNodes) {
+    public static ArrayList<ArrayList<Integer>> removeNode(User p, ArrayList<User> allNodes) {
         allNodes.remove(p);
-        ConstructGraph g1 = new ConstructGraph(allNodes); // Initialising the construct graph object
         ArrayList<ArrayList<Integer>> graph = new ArrayList<>(--V);
         Main_With_IO.writeData(allNodes, fileName);
-        return graph = reconstructGraph(allNodes);
+        return graph = ConstructGraph.constGraph(allNodes);
     }
 
     public static ArrayList<ArrayList<Integer>> addFriend(ArrayList<ArrayList<Integer>> graph,
-            ArrayList<Profile> allNodes, String nodeA,
+            ArrayList<User> allNodes, String nodeA,
             String nodeB) {
 
         int A = 0;
-        Profile tempA = null;
+        User tempA = null;
         int B = 0;
-        Profile tempB = null;
-        for (Profile i : allNodes) { // Findig Index of A node
-            if (i.getName().equals(nodeA)) {
+        User tempB = null;
+        for (User i : allNodes) { // Findig Index of A node
+            if (i.getUsername().equals(nodeA)) {
                 tempA = i;
                 break;
             }
             A++;
         }
-        for (Profile j : allNodes) { // Findig Index of B node
-            if (j.getName().equals(nodeB)) {
+        for (User j : allNodes) { // Findig Index of B node
+            if (j.getUsername().equals(nodeB)) {
                 tempB = j;
                 break;
             }
@@ -74,29 +74,29 @@ public class Main {
         Main_With_IO.writeData(allNodes, fileName);// Updating data from file
 
         ArrayList<ArrayList<Integer>> graph1 = new ArrayList<>(V);
-        // ArrayList<Profile> tempList = Main_With_IO.getAllNodes(fileName);
+        // ArrayList<User> tempList = Main_With_IO.getAllNodes(fileName);
         // allNodes = tempList;
-        ConstructGraph g1 = new ConstructGraph(allNodes); // Initialising the construct graph object
-        graph1 = reconstructGraph(allNodes);
-        return graph1;
+        System.out.println("Friend added");
+        return graph1 = ConstructGraph.constGraph(allNodes);
     }
 
-    public static  ArrayList<ArrayList<Integer>> removeFriend(ArrayList<ArrayList<Integer>> graph, ArrayList<Profile> allNodes, String nodeA,
+    public static ArrayList<ArrayList<Integer>> removeFriend(ArrayList<ArrayList<Integer>> graph,
+            ArrayList<User> allNodes, String nodeA,
             String nodeB) {
 
         int A = 0;
-        Profile tempA = null;
+        User tempA = null;
         int B = 0;
-        Profile tempB = null;
-        for (Profile i : allNodes) { // Findig Index of A node
-            if (i.getName().equals(nodeA)) {
+        User tempB = null;
+        for (User i : allNodes) { // Findig Index of A node
+            if (i.getUsername().equals(nodeA)) {
                 tempA = i;
                 break;
             }
             A++;
         }
-        for (Profile j : allNodes) { // Findig Index of B node
-            if (j.getName().equals(nodeB)) {
+        for (User j : allNodes) { // Findig Index of B node
+            if (j.getUsername().equals(nodeB)) {
                 tempB = j;
                 break;
             }
@@ -116,10 +116,8 @@ public class Main {
         System.out.println("Size of list is " + allNodes.size());
         Main_With_IO.writeData(allNodes, fileName);// Updating data from file
         // allNodes=Main_With_IO.getAllNodes(fileName);
-        
-        ArrayList<ArrayList<Integer>> graph1 = new ArrayList<>(V);
-        ConstructGraph g1 = new ConstructGraph(allNodes); // Initialising the construct graph object
-        return graph1 = reconstructGraph(allNodes);
+        System.out.println("Friend is removed");
+        return graph = ConstructGraph.constGraph(allNodes);
     }
 
     public static void displayMatrix(ArrayList<ArrayList<Integer>> mat) {
@@ -132,7 +130,7 @@ public class Main {
         System.out.println("===================\n");
     }
 
-    public static ArrayList<ArrayList<Integer>> reconstructGraph(ArrayList<Profile> allNodes) {
+    public static ArrayList<ArrayList<Integer>> reconstructGraph(ArrayList<User> allNodes) {
         ConstructGraph g1 = new ConstructGraph(allNodes);
         ArrayList<ArrayList<Integer>> graph = new ArrayList<>(allNodes.size());
         graph = g1.RetrieveGraph();
@@ -140,23 +138,78 @@ public class Main {
         return graph;
     }
 
+    public static ArrayList<User> getMutualFriendsList(User sender, User receiver) {
+        ArrayList<User> list = new ArrayList<>();
+        ArrayList<User> senderList = sender.getFriends();
+        ArrayList<User> receiverList = receiver.getFriends();
+        int indexA = 0; // index to iterate all friends of receiver to compare with sender friends
+        int indexR = 0;
+        System.out.println(sender.getUsername() + " has " + senderList.size());
+        System.out.println(receiver.getUsername() + " has " + receiverList.size());
+        for (int i = 0; i < receiverList.size(); i++) {
+            for (int j = 0; j < receiverList.size(); j++) {
+                if (receiverList.get(i).equals(senderList.get(j))) {
+                    list.add(receiverList.get(i));
+                }
+            }
+        }
+
+        if (list.size() == 0) {
+            System.out.println("No Mutual Friends Found");
+        }
+        return list;
+    }
+
+    public void sendReq(ArrayList<User> allNodes, User sender, String receiver) throws NullPointerException {
+        FriendRequest mf = new FriendRequest(sender.getName(), sender.getAge(), sender.getGender());
+        mf.getMutualFrnds();
+        for (User i : allNodes) {
+            if (i.getUsername().equals(receiver)) {
+                ArrayList<User> mutualfriends = getMutualFriendsList(sender, i);
+                mf.setMutualFrnds(mutualfriends);
+                i.getFrndReqs().add(mf);
+                return;
+            }
+        }
+        System.out.println("User Not Found");
+    }
+
+    public ArrayList<ArrayList<Integer>> acceptReq(ArrayList<ArrayList<Integer>> graph, ArrayList<User> allNodes,
+            User sender, User receiver)
+            throws NullPointerException {
+        ArrayList<FriendRequest> fr = receiver.getFrndReqs();
+
+        for (FriendRequest i : fr) {
+            if (i.getSenderName().equals(sender.getUsername())) {
+                return graph = addFriend(graph, allNodes, sender.getUsername(), i.getSenderName());
+            }
+        }
+        System.out.println("NO Req found ");
+        return graph;
+    }
+
     public static void main(String[] args) {
+
         /*
-         * // NodeA
+         * // NodeA (String name, int age, String gender, String cnic, String
+         * pswrd,String un, Address add)
          * Address AddA = new Address("Islamabad", 3, 10);
-         * Profile nodeA = new Profile("Saad", 19, AddA);
+         * User nodeA =new User("Saad", 19, "Male", "34342432", "saad1", "saadjutt",
+         * AddA);
          * // NodeB
          * Address AddB = new Address("Islamabad", 2, 10);
-         * Profile nodeB = new Profile("Ammar", 18, AddB);
+         * User nodeB =new User("Ali", 19, "Male", "34342432", "ali1", "ali1", AddB);
          * // NodeC
          * Address AddC = new Address("Islamabad", 5, 10);
-         * Profile nodeC = new Profile("Ali", 19, AddC);
+         * User nodeC =new User("Bakr", 19, "Male", "34342432", "chirri", "bakr1",
+         * AddC);
          * // NodeD
          * Address AddD = new Address("Islamabad", 31, 10);
-         * Profile nodeD = new Profile("Bakr", 21, AddD);
+         * User nodeD =new User("Ammar", 19, "Male", "34342432", "azy1", "azy1", AddD);
          * // NodeE
          * Address AddE = new Address("Islamabad", 13, 10);
-         * Profile nodeE = new Profile("Huzaifa", 20, AddE);
+         * User nodeE =new User("Huzaifa", 19, "Male", "34342432", "huzafa", "javy1",
+         * AddE);
          * 
          * // Adding Frnds of A
          * nodeA.AddNewFriend(nodeE);
@@ -168,8 +221,10 @@ public class Main {
          * // Adding Frnds of D
          * nodeD.AddNewFriend(nodeC);
          */
+
         // Adding nodes to list and writting list to file
-        ArrayList<Profile> allNodes = new ArrayList<>();
+        ArrayList<User> allNodes = new ArrayList<>();
+
         /*
          * allNodes.add(nodeA);
          * allNodes.add(nodeB);
@@ -178,8 +233,9 @@ public class Main {
          * allNodes.add(nodeE);
          * 
          * // Writting data to file
-         * Main_With_IO.writeData(allNodes, fileName)
-         */;
+         * Main_With_IO.writeData(allNodes, fileName);
+         * System.out.println("Written NO problem");
+         */
 
         // ****************************************************** Reading data from file
 
@@ -189,15 +245,14 @@ public class Main {
         // System.out.println(allNodes.get(0).getFriends());
         System.out.println("List of frnds created ");
         /*
-         * for (Profile i : allNodes.get(0).getFriends()) {
+         * for (User i : allNodes.get(0).getFriends()) {
          * System.out.println(i);
          * }
          */
         // System.out.println("List Tested ");
-        ConstructGraph g1 = new ConstructGraph(allNodes); // Initialising the construct graph object
         ArrayList<ArrayList<Integer>> graph = new ArrayList<>(V);
         // graph = g1.RetrieveGraph();
-        graph = reconstructGraph(allNodes);
+        graph = ConstructGraph.constGraph(allNodes);
         displayMatrix(graph);
 
         /*
@@ -215,19 +270,27 @@ public class Main {
         System.out.println(allNodes.get(allNodes.size() - 1).getName());
 
         // ******************************************************Removing and Adding new
-        // Nodes */
+        // Nodes and Friends
+
         // graph = addNode("Pindi", 5, 11, "Saedi", 19, allNodes);
-        // Profile p=allNodes.get(allNodes.size()-1);
+        // User p=allNodes.get(allNodes.size()-1);
         // displayMatrix(graph);
-        // Profile p=new Profile("Abdul Rehman", 19, null);
+        // User p=new User("Abdul Rehman", 19, null);
         // graph=removeNode(allNodes.get(allNodes.size()-1), allNodes);
         // addNode(p, allNodes);
-        graph =removeFriend(graph, allNodes, "Saad", "Abdul Rehman");
-        // graph = addFriend(graph, allNodes, "Saad", "Abdul Rehman"); //// Havving issue here Not updating graph when
-                                                                    //// method is
-        //// called but is updated when re run the program
+        // graph = removeFriend(graph, allNodes, "Saad", "Abdul Rehman");
+        graph = addFriend(graph, allNodes, "saadjutt", "azy1");
         displayMatrix(graph);
         // System.out.println(allNodes.get(allNodes.size()-3));
+
+        // ******************************************************Sending and Receiving
+        // reqs
+
+        ArrayList<User> mf = new ArrayList<>();
+        mf = getMutualFriendsList(allNodes.get(0), allNodes.get(1));
+        for (User i : mf) {
+            System.out.println(i);
+        }
     }
 
 }

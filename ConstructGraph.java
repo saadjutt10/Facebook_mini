@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 public class ConstructGraph implements Serializable {
 
-    ArrayList<Profile> AllNodes = new ArrayList<>();
+    ArrayList<User> AllNodes = new ArrayList<>();
     ArrayList<ArrayList<Integer>> graph;
 
     public void InitialisingGraph(ArrayList<ArrayList<Integer>> mat) {
@@ -15,16 +15,26 @@ public class ConstructGraph implements Serializable {
         }
     }
 
-    public ConstructGraph(ArrayList<Profile> list) {
+    public static ArrayList<ArrayList<Integer>> constGraph(ArrayList<User> list) {
+
+        ConstructGraph g1 = new ConstructGraph(list); // Initialising the construct graph object
+        ArrayList<ArrayList<Integer>> graph = new ArrayList<>(Main.V);
+        // graph = g1.RetrieveGraph();
+        graph = Main.reconstructGraph(list);
+        return graph;
+
+    }
+
+    public ConstructGraph(ArrayList<User> list) {
         graph = new ArrayList<>(Main.V);
         InitialisingGraph(graph);
         AllNodes = list;
         int NodeNum = -1; // Check which node is iterating and also used to create graph links
-        for (Profile i : AllNodes) { // Logic to create the graph
+        for (User i : AllNodes) { // Logic to create the graph
             NodeNum++;
-            ArrayList<Profile> frnds = i.getFriends();
+            ArrayList<User> frnds = i.getFriends();
             for (int index = 0; index < frnds.size(); index++) { // lOOP TO iterate all frnds of specific node
-                Profile curr = frnds.get(index);
+                User curr = frnds.get(index);
                 // System.out.println(curr);
                 for (int nodesIndex = 0; nodesIndex < AllNodes.size(); nodesIndex++) {// Loop to compare that specific
                                                                                       // node with all nodes to check if

@@ -1,34 +1,43 @@
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Profile implements Serializable{
-    private String name;
-    private int age;
-    ArrayList<Profile> friends = new ArrayList<>();
+public class User extends Person implements Serializable {
+    ArrayList<User> friends = new ArrayList<>();
     ArrayList<String> interest = new ArrayList<>();
     private Address add;
+    private String username;
+    private String Password;
+    ArrayList<FriendRequest> FrndReqs = new ArrayList<>();
 
-    public Profile(String name, int age, Address add) {
-        this.name = name;
-        this.age = age;
+    public User(String name, int age, String gender, String cnic, String pswrd, String un, Address add) {
+        super(name, age, gender, cnic);
         this.add = add;
+        this.Password = pswrd;
+        this.username = un;
     }
 
-
-    public String getName() {
-        return name;
+    public ArrayList<FriendRequest> getFrndReqs() {
+        return FrndReqs;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFrndReqs(ArrayList<FriendRequest> frndReqs) {
+        FrndReqs = frndReqs;
     }
 
-    public int getAge() {
-        return age;
+    public String getUsername() {
+        return username;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return Password;
+    }
+
+    public void setPassword(String password) {
+        Password = password;
     }
 
     public Address getAdd() {
@@ -39,11 +48,11 @@ public class Profile implements Serializable{
         this.add = add;
     }
 
-    public ArrayList<Profile> getFriends() {
+    public ArrayList<User> getFriends() {
         return friends;
     }
 
-    public void AddNewFriend(Profile newfrnd) {
+    public void AddNewFriend(User newfrnd) {
         // System.out.println(this);
         // System.out.println(newfrnd);
         if (this.friends.size() == 0) {
@@ -61,7 +70,7 @@ public class Profile implements Serializable{
         newfrnd.getFriends().add(this);
     }
 
-    public void RemoveFriend(Profile del) {
+    public void RemoveFriend(User del) {
         // System.out.println(this);
         // System.out.println(newfrnd);
         if (this.friends.size() == 0) {
@@ -70,9 +79,9 @@ public class Profile implements Serializable{
         }
         for (int i = 0; i < this.friends.size(); i++) {
             if (this.friends.get(i) == del) {
-               this.friends.remove(del);
-               del.getFriends().remove(this);
-               System.out.println("Removed");
+                this.friends.remove(del);
+                del.getFriends().remove(this);
+                System.out.println("Removed");
                 return;
             }
         }
@@ -91,11 +100,10 @@ public class Profile implements Serializable{
         this.interest.remove(newint);
     }
 
-
     @Override
     public String toString() {
-        return "Profile [name=" + name + ", age=" + age +/*  ", friends=" + friends + ", interest=" + interest +  */", add="
-                + add + "]";
+        return "User [ username=" + username
+                + ", Password=" + Password + "]";
     }
 
 }
