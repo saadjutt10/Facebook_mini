@@ -104,8 +104,12 @@ public class Main {
         }
 
         if (allNodes.contains(tempA) && allNodes.contains(tempB)) {
-
-            allNodes.get(A).RemoveFriend(tempB);
+            if (graph.get(A).get(B) == 1) {
+                allNodes.get(A).RemoveFriend(tempB);
+            }
+            else{
+                System.out.println("Already not friends Bro");
+            }
         } else {
             System.out.println("One or both nodes are not present in our system");
             System.out.println(tempA);
@@ -160,18 +164,28 @@ public class Main {
         return list;
     }
 
-    public void sendReq(ArrayList<User> allNodes, User sender, String receiver) throws NullPointerException {
-        FriendRequest mf = new FriendRequest(sender.getName(), sender.getAge(), sender.getGender());
+    public static ArrayList<User> sendReq(ArrayList<User> allNodes, User sender, String receiver)
+            throws NullPointerException {
+        FriendRequest mf = new FriendRequest(sender.getUsername(), sender.getAge(), sender.getGender());
         mf.getMutualFrnds();
         for (User i : allNodes) {
             if (i.getUsername().equals(receiver)) {
-                ArrayList<User> mutualfriends = getMutualFriendsList(sender, i);
-                mf.setMutualFrnds(mutualfriends);
+                // ArrayList<User> mutualfriends = getMutualFriendsList(sender, i);
+                // mf.setMutualFrnds(mutualfriends);
+                for (int j = 0; j < i.getFrndReqs().size(); j++) {
+                    if (i.getFrndReqs().get(j).getSenderName().equals(sender.getUsername())) {
+                        System.out.println("Already sent bro wait krle thora");
+                        return allNodes;
+                    }
+                }
                 i.getFrndReqs().add(mf);
-                return;
+                System.out.println("Request sent ");
+                Main_With_IO.writeData(allNodes, fileName);
+                return allNodes;
             }
         }
         System.out.println("User Not Found");
+        return allNodes;
     }
 
     public ArrayList<ArrayList<Integer>> acceptReq(ArrayList<ArrayList<Integer>> graph, ArrayList<User> allNodes,
@@ -278,18 +292,17 @@ public class Main {
         // User p=new User("Abdul Rehman", 19, null);
         // graph=removeNode(allNodes.get(allNodes.size()-1), allNodes);
         // addNode(p, allNodes);
-        // graph = removeFriend(graph, allNodes, "Saad", "Abdul Rehman");
-        graph = addFriend(graph, allNodes, "saadjutt", "azy1");
+        graph = removeFriend(graph, allNodes, "saadjutt", "azy1");
+        // graph = addFriend(graph, allNodes, "saadjutt", "azy1");
         displayMatrix(graph);
         // System.out.println(allNodes.get(allNodes.size()-3));
 
         // ******************************************************Sending and Receiving
         // reqs
 
-        ArrayList<User> mf = new ArrayList<>();
-        mf = getMutualFriendsList(allNodes.get(0), allNodes.get(1));
-        for (User i : mf) {
-            System.out.println(i);
+         allNodes = sendReq(allNodes, allNodes.get(0), "azy1");
+        for(FriendRequest i : allNodes.get(3).getFrndReqs()){
+            System.out.println(i.getSenderName());
         }
     }
 
