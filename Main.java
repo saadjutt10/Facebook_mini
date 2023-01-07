@@ -106,8 +106,7 @@ public class Main {
         if (allNodes.contains(tempA) && allNodes.contains(tempB)) {
             if (graph.get(A).get(B) == 1) {
                 allNodes.get(A).RemoveFriend(tempB);
-            }
-            else{
+            } else {
                 System.out.println("Already not friends Bro");
             }
         } else {
@@ -188,13 +187,14 @@ public class Main {
         return allNodes;
     }
 
-    public ArrayList<ArrayList<Integer>> acceptReq(ArrayList<ArrayList<Integer>> graph, ArrayList<User> allNodes,
+    public static ArrayList<ArrayList<Integer>> acceptReq(ArrayList<ArrayList<Integer>> graph, ArrayList<User> allNodes,
             User sender, User receiver)
             throws NullPointerException {
         ArrayList<FriendRequest> fr = receiver.getFrndReqs();
 
         for (FriendRequest i : fr) {
             if (i.getSenderName().equals(sender.getUsername())) {
+                fr.remove(i);
                 return graph = addFriend(graph, allNodes, sender.getUsername(), i.getSenderName());
             }
         }
@@ -300,8 +300,9 @@ public class Main {
         // ******************************************************Sending and Receiving
         // reqs
 
-         allNodes = sendReq(allNodes, allNodes.get(0), "azy1");
-        for(FriendRequest i : allNodes.get(3).getFrndReqs()){
+        allNodes = sendReq(allNodes, allNodes.get(0), "azy1");
+        graph = acceptReq(graph, allNodes, allNodes.get(0), allNodes.get(3));
+        for (FriendRequest i : allNodes.get(3).getFrndReqs()) {
             System.out.println(i.getSenderName());
         }
     }
