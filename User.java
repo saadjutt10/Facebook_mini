@@ -1,8 +1,11 @@
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Queue;
 
-public class User extends Person  {
+import javafx.scene.canvas.GraphicsContext;
+
+public class User extends Person {
     ArrayList<User> friends = new ArrayList<>();
     ArrayList<String> interest = new ArrayList<>();
     private Address add;
@@ -10,9 +13,8 @@ public class User extends Person  {
     private String Password;
     ArrayList<FriendRequest> FrndReqs = new ArrayList<>();
 
-
-
-    public User(ArrayList<User> list,String name, int age, String gender, String cnic, String pswrd, String un, Address add) {
+    public User(ArrayList<User> list, String name, int age, String gender, String cnic, String pswrd, String un,
+            Address add) {
         super(name, age, gender, cnic);
         this.add = add;
         this.Password = pswrd;
@@ -20,8 +22,6 @@ public class User extends Person  {
     }
 
     // Getter and Setter
-
-
 
     public ArrayList<FriendRequest> getFrndReqs() {
         return FrndReqs;
@@ -110,7 +110,7 @@ public class User extends Person  {
 
     //////////// ********************Real Shit starts here************* */
 
-    public boolean addFriend(ArrayList<User> allNodes,String nodeB) throws IOException {
+    public boolean addFriend(ArrayList<User> allNodes, String nodeB) throws IOException {
 
         int A = 0;
         User tempA = null;
@@ -148,7 +148,7 @@ public class User extends Person  {
         // ArrayList<User> tempList = Main_With_IO.getAllNodes(fileName);
         // allNodes = tempList;
         System.out.println("Friend added");
-        for(User i : allNodes){
+        for (User i : allNodes) {
             System.out.println(i.getUsername());
         }
         ConstructGraph temp = new ConstructGraph(allNodes);
@@ -158,7 +158,7 @@ public class User extends Person  {
         return true;
     }
 
-    public boolean removeFriend(ArrayList<User> allNodes,String nodeB) throws IOException {
+    public boolean removeFriend(ArrayList<User> allNodes, String nodeB) throws IOException {
 
         int A = 0;
         User tempA = null;
@@ -225,7 +225,7 @@ public class User extends Person  {
         return list;
     }
 
-    public boolean sendReq(ArrayList<User> allNodes,String receiver)
+    public boolean sendReq(ArrayList<User> allNodes, String receiver)
             throws NullPointerException, IOException {
         FriendRequest mf = new FriendRequest(this.getUsername(), this.getAge(), this.getGender());
         mf.getMutualFrnds();
@@ -249,14 +249,14 @@ public class User extends Person  {
         return false;
     }
 
-    public boolean acceptReq(ArrayList<User> allNodes,User sender)
+    public boolean acceptReq(ArrayList<User> allNodes, User sender)
             throws NullPointerException, IOException {
         ArrayList<FriendRequest> fr = this.getFrndReqs();
 
         for (FriendRequest i : fr) {
             if (i.getSenderName().equals(sender.getUsername())) {
                 fr.remove(i);
-                addFriend( allNodes,i.getSenderName());
+                addFriend(allNodes, i.getSenderName());
                 return true;
             }
         }
@@ -264,15 +264,55 @@ public class User extends Person  {
         return false;
     }
 
+   
+    //////////// **************Graph Algos and suggestions******************* */
 
-
-
-    //////////// ********************************* */
-
-   /*  public ArrayList<User> distanceSuggestions(ArrayList<User> list,ArrayList<ArrayList<Integer>> graph ){
-        
+    public int FindIndexInList(ArrayList<User> list, User name) {
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).equals(name))
+                return i;
+        }
+        return 0;
     }
- */
+
+    public ArrayList<User> searching_Breadth(ArrayList<User> list, String name) {
+        Queue<User> que;
+        boolean checkList[] = new boolean[list.size()];
+        int source = FindIndexInList(list, this);
+        checkList[source] = true; // Making source visited
+        que.add(this);
+        while (!que.isEmpty()) {
+            User temp = que.poll();
+            int position= FindIndexInList(list, temp);
+            for (int i = 0; i < list.size(); i++) {
+                if (source != i)
+                    if (Main.getGraph().get(position).get(i) != 0) {
+                        // cout << i << " :Outer true \n";
+                        if (checkList[i] == false) // If already Visited just continue
+                        {
+                            // cout << "inner true \n";
+                            checkList[i] = true; // Before pushing the element in stack change its visited check to true
+                            que.add(list.get(i));
+                        }
+                    }
+            }
+        }
+    }
+
+    public ArrayList<User> distanceSuggestions(ArrayList<User> list) throws IOException {
+        ArrayList<User> temp = new ArrayList<>();// Taking for 1000km
+        for (int i = 0; i < list.size(); i++) {
+            User user = list.get(i);
+            String city = user.getAdd().getCity();
+            String city2 = this.getAdd().getCity();
+            double distance = GetDistance.DistanceBtCities(city, city2);
+            if (distance <= 1000) {
+                temp.add(user);
+            }
+        }
+        return temp;
+    }
+
     @Override
     public String toString() {
         return "User [ username=" + username
