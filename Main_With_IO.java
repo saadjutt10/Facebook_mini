@@ -20,11 +20,11 @@ public class Main_With_IO implements Serializable {
      */
     public static void writeData(ArrayList<User> s, String file) throws IOException {
 
-                File f = new File(file);
-                ObjectOutputStream oos;
-                oos=new ObjectOutputStream(new FileOutputStream(file));
-                oos.writeObject(s);
-                oos.close();
+        File f = new File(file);
+        ObjectOutputStream oos;
+        oos = new ObjectOutputStream(new FileOutputStream(file));
+        oos.writeObject(s);
+        oos.close();
     }
 
     public static void ReadData(String file) {
@@ -100,12 +100,16 @@ public class Main_With_IO implements Serializable {
     public static ArrayList<User> getAllNodes(String file) throws ClassNotFoundException, IOException {
         ArrayList<User> allNodes = new ArrayList<>();
 
-        ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
-        System.out.println(ois.readObject());
-        @SuppressWarnings("unchecked")
-        ArrayList<User> temp= (ArrayList<User>) ois.readObject();
-        return allNodes=temp;
-
+        try {
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
+            // System.out.println(ois.readObject());  If you try to print it then it will be empty to be read
+            @SuppressWarnings("unchecked")
+            ArrayList<User> temp = (ArrayList<User>) ois.readObject();
+            return allNodes = temp;
+        } catch (EOFException e) {
+            System.out.println("EOF Exception");
+        }
+        return allNodes;
     }
 
     public static User removeNode(User node, String file) throws ClassNotFoundException, IOException {

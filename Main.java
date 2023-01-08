@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Main implements Serializable {
 
-    static String fileName = "Data.csv";
+    static String fileName = "Data.txt";
     static int V=0;// No of nodes in graph
     private static ArrayList<ArrayList<Integer>> graph;
     
@@ -20,7 +20,7 @@ public class Main implements Serializable {
         // User(ArrayList<User> list,String name, int age, String gender, String cnic,
         // String pswrd, String un, Address add)
 
-        ArrayList<User> allNodes = new ArrayList<>();
+       /*  ArrayList<User> allNodes = new ArrayList<>();
         Address ad1 = new Address("sialkot", 22, 10);
         User s1 = new User(allNodes, "Saad", 19, "Male", "23323", "saadstar1", "saadjutt", ad1);
 
@@ -49,8 +49,8 @@ public class Main implements Serializable {
         allNodes.get(2).addFriend(allNodes, "saadjutt1");
         allNodes.get(1).addFriend(allNodes, "huzaifa1");
 
-        Main_With_IO.writeData(allNodes, fileName);
-        // ArrayList<User> allNodes=Main_With_IO.getAllNodes(fileName);
+        Main_With_IO.writeData(allNodes, fileName); */
+         ArrayList<User> allNodes=Main_With_IO.getAllNodes(fileName);
         // we'll get user Profile from the login window
         // Let's say the user trying to login is first from the list
         // User user1=allNodes.get(0);
