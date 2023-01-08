@@ -34,6 +34,9 @@ public class Address implements Comparable<Address>,Serializable {
     public void setHouseNo(int houseNo) {
         this.houseNo = houseNo;
     }
+    
+
+
 
     @Override
     public int compareTo(Address o) {
@@ -47,7 +50,9 @@ public class Address implements Comparable<Address>,Serializable {
 
     @Override
     public String toString() {
-        return "Address [city=" + city + ", streetNo=" + streetNo + ", houseNo=" + houseNo + "]";
+        return "Address [city=" + city + ", streetNo=" + streetNo + ", houseNo=" + houseNo 
+                + "]";
     }
+
 
 }

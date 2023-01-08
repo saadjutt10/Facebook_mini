@@ -16,6 +16,7 @@ public class FriendRequest implements Serializable{
     }
     public String getSenderName() {
         return senderName;
+        
     }
  
     public int getSenderAge() {
