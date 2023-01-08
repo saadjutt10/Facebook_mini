@@ -1,103 +1,62 @@
-public class Main {
-    public static void main(String[] args) {
+import java.io.IOException;
+import java.io.Serializable;
+import java.util.ArrayList;
 
-        /*
-         * // NodeA (String name, int age, String gender, String cnic, String
-         * pswrd,String un, Address add)
-         * Address AddA = new Address("Islamabad", 3, 10);
-         * User nodeA =new User("Saad", 19, "Male", "34342432", "saad1", "saadjutt",
-         * AddA);
-         * // NodeB
-         * Address AddB = new Address("Islamabad", 2, 10);
-         * User nodeB =new User("Ali", 19, "Male", "34342432", "ali1", "ali1", AddB);
-         * // NodeC
-         * Address AddC = new Address("Islamabad", 5, 10);
-         * User nodeC =new User("Bakr", 19, "Male", "34342432", "chirri", "bakr1",
-         * AddC);
-         * // NodeD
-         * Address AddD = new Address("Islamabad", 31, 10);
-         * User nodeD =new User("Ammar", 19, "Male", "34342432", "azy1", "azy1", AddD);
-         * // NodeE
-         * Address AddE = new Address("Islamabad", 13, 10);
-         * User nodeE =new User("Huzaifa", 19, "Male", "34342432", "huzafa", "javy1",
-         * AddE);
-         * 
-         * // Adding Frnds of A
-         * nodeA.AddNewFriend(nodeE);
-         * nodeA.AddNewFriend(nodeB);
-         * // Adding Frnds of B
-         * nodeB.AddNewFriend(nodeD);
-         * // Adding Frnds of C
-         * nodeC.AddNewFriend(nodeE);
-         * // Adding Frnds of D
-         * nodeD.AddNewFriend(nodeC);
-         */
+public class Main implements Serializable {
 
-        // Adding nodes to list and writting list to file
-    
+    static String fileName = "Data.txt";
 
-        /*
-         * allNodes.add(nodeA);
-         * allNodes.add(nodeB);
-         * allNodes.add(nodeC);
-         * allNodes.add(nodeD);
-         * allNodes.add(nodeE);
-         * 
-         * // Writting data to file
-         * Main_With_IO.writeData(allNodes, fileName);
-         * System.out.println("Written NO problem");
-         */
+    public static void main(String[] args) throws ClassNotFoundException, IOException {
+        // User(ArrayList<User> list,String name, int age, String gender, String cnic,
+        // String pswrd, String un, Address add)
 
-        // ****************************************************** Reading data from file
+        ArrayList<User> allNodes = new ArrayList<>();
+       /*  Address ad1 = new Address("sialkot", 22, 10);
+        User s1 = new User(allNodes, "Saad", 19, "Male", "23323", "saadstar1", "saadjutt", ad1);
 
-       
-        // System.out.println("List of frnds created ");
-        // System.out.println(allNodes.get(0).getFriends());
-        System.out.println("List of frnds created ");
-        /*
-         * for (User i : allNodes.get(0).getFriends()) {
-         * System.out.println(i);
-         * }
-         */
-        // System.out.println("List Tested ");
-        // graph = g1.RetrieveGraph();
+        allNodes.add(s1);
+        Address ad2 = new Address("Islamabad", 20, 10);
+        User s2 = new User(allNodes, "Ali", 19, "Male", "3213", "alli2", "ali1", ad2);
 
+        allNodes.add(s2);
+        Address ad3 = new Address("Gujranwala", 22, 10);
+        User s3 = new User(allNodes, "Ammar", 19, "Male", "23323", "azy1", "ammar1", ad3);
 
-        /*
-         * allNodes.get(0).RemoveFriend(allNodes.get(4));
-         * 
-         * graph = reconstructGraph(allNodes); // Every time a change happends in nodes
-         * it needs to be reconstructed
-         * displayMatrix(graph);
-         * 
-         * allNodes.get(0).AddNewFriend(allNodes.get(4));
-         * graph = reconstructGraph(allNodes); // Every time a change happends in nodes
-         * it needs to be reconstructed
-         * displayMatrix(graph);
-         */
-        
+        allNodes.add(s3);
+        Address ad4 = new Address("Shakargar", 22, 10);
+        User s4 = new User(allNodes, "Huzaifa", 19, "Male", "23323", "huz1", "huzaifa1", ad4);
 
-        // ******************************************************Removing and Adding new
-        // Nodes and Friends
+        allNodes.add(s4);
+        Address ad5 = new Address("Multan", 22, 10);
+        User s5 = new User(allNodes, "Bakr", 19, "Male", "23323", "bakr2", "bakr1", ad5);
 
-        // graph = addNode("Pindi", 5, 11, "Saedi", 19, allNodes);
-        // User p=allNodes.get(allNodes.size()-1);
-        // displayMatrix(graph);
-        // User p=new User("Abdul Rehman", 19, null);
-        // graph=removeNode(allNodes.get(allNodes.size()-1), allNodes);
-        // addNode(p, allNodes);
-        graph = removeFriend(graph, allNodes, "saadjutt", "azy1");
-        // graph = addFriend(graph, allNodes, "saadjutt", "azy1");
-        displayMatrix(graph);
-        // System.out.println(allNodes.get(allNodes.size()-3));
+        allNodes.add(s5);
+        System.out.println(User.V);
+        // Adding friends
+        allNodes.get(0).addFriend(allNodes, "bakr1");
+        allNodes.get(1).addFriend(allNodes, "ammar1");
+        allNodes.get(3).addFriend(allNodes, "bakr1");
+        allNodes.get(2).addFriend(allNodes, "saadjutt1");
+        allNodes.get(1).addFriend(allNodes, "huzaifa1");
 
-        // ******************************************************Sending and Receiving
-        // reqs
+        Main_With_IO.writeData(allNodes, fileName); */
+        // ArrayList<User> allNodes=Main_With_IO.getAllNodes(fileName);
+        // we'll get user Profile from the login window
+        // Let's say the user trying to login is first from the list
+        // User user1=allNodes.get(0);
+        // user1.displayMatrix();
 
-        allNodes = sendReq(allNodes, allNodes.get(0), "azy1");
-        graph = acceptReq(graph, allNodes, allNodes.get(0), allNodes.get(3));
-        for (FriendRequest i : allNodes.get(3).getFrndReqs()) {
-            System.out.println(i.getSenderName());
-        }
+        allNodes=Main_With_IO.getAllNodes(fileName);
+        // System.out.println("File read successfully");
+        User.displayMatrix();
+        // Main_With_IO.writeData(allNodes, fileName);
+
+        // System.out.println("Going dark");
+        // for (User i : allNodes) {
+        // System.out.println(i.getUsername());
+        // }
+
+        // User login=new User(allNodes, fileName, 0, fileName, fileName, fileName,
+        // fileName, null);
     }
 }

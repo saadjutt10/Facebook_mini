@@ -51,7 +51,7 @@ public class GetCoordinates {
 
     // Set up the URL and API key
     String urlString = "https://maps.googleapis.com/maps/api/geocode/json?address=" + city
-        + "&key=AIzaSyAaR_Zj1P9mz27EDFyAlddmcxoR7gGAAIA";
+        + "&key=yourAPI_Key";
     URL url = new URL(urlString);
 
     // Open a connection to the URL

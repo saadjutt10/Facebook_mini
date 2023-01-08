@@ -7,9 +7,9 @@ public class ConstructGraph implements Serializable {
     ArrayList<ArrayList<Integer>> graph;
 
     public void InitialisingGraph(ArrayList<ArrayList<Integer>> mat) {
-        for (int i = 0; i < UserOperations.V; i++) {
-            mat.add(new ArrayList<>(UserOperations.V));
-            for (int j = 0; j < UserOperations.V; j++) {
+        for (int i = 0; i < User.V; i++) {
+            mat.add(new ArrayList<>(User.V));
+            for (int j = 0; j < User.V; j++) {
                 mat.get(i).add(0);
             }
         }
@@ -18,16 +18,15 @@ public class ConstructGraph implements Serializable {
     public  ArrayList<ArrayList<Integer>> constGraph(ArrayList<User> list,String fn , User u) {
 
         ConstructGraph g1 = new ConstructGraph(list); // Initialising the construct graph object
-        ArrayList<ArrayList<Integer>> graph = new ArrayList<>(UserOperations.V);
+        ArrayList<ArrayList<Integer>> graph = new ArrayList<>(User.V);
         // graph = g1.RetrieveGraph();
-        UserOperations temp=new UserOperations(fn, u);
-        graph = temp.reconstructGraph(list);
+        graph = u.reconstructGraph(list);
         return graph;
 
     }
 
     public ConstructGraph(ArrayList<User> list) {
-        graph = new ArrayList<>(UserOperations.V);
+        graph = new ArrayList<>(User.V);
         InitialisingGraph(graph);
         AllNodes = list;
         int NodeNum = -1; // Check which node is iterating and also used to create graph links
