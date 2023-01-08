@@ -10,29 +10,17 @@ public class User extends Person  {
     private String Password;
     ArrayList<FriendRequest> FrndReqs = new ArrayList<>();
 
-    static int V=0;// No of nodes in graph
-    private static ArrayList<ArrayList<Integer>> graph;
+
 
     public User(ArrayList<User> list,String name, int age, String gender, String cnic, String pswrd, String un, Address add) {
         super(name, age, gender, cnic);
         this.add = add;
         this.Password = pswrd;
         this.username = un;
-        V++;
-        graph= new ArrayList<>(V);
-        graph=reconstructGraph(list);
     }
 
     // Getter and Setter
 
-
-    public ArrayList<ArrayList<Integer>> getGraph() {
-        return graph;
-    }
-
-    public void setGraph(ArrayList<ArrayList<Integer>> graph) {
-        this.graph = graph;
-    }
 
 
     public ArrayList<FriendRequest> getFrndReqs() {
@@ -164,7 +152,9 @@ public class User extends Person  {
             System.out.println(i.getUsername());
         }
         ConstructGraph temp = new ConstructGraph(allNodes);
-        graph = temp.constGraph(allNodes, Main.fileName, this);
+        ArrayList<ArrayList<Integer>> graph = temp.constGraph(allNodes, Main.fileName, this);
+        Main.setGraph(graph);
+
         return true;
     }
 
@@ -190,7 +180,7 @@ public class User extends Person  {
         }
 
         if (allNodes.contains(tempA) && allNodes.contains(tempB)) {
-            if (graph.get(A).get(B) == 1) {
+            if (Main.getGraph().get(A).get(B) == 1) {
                 allNodes.get(A).RemoveFriend(tempB);
 
             } else {
@@ -208,7 +198,8 @@ public class User extends Person  {
         // allNodes=Main_With_IO.getAllNodes(fileName);
         System.out.println("Friend is removed");
         ConstructGraph temp = new ConstructGraph(allNodes);
-        graph = temp.constGraph(allNodes, Main.fileName, this);
+        ArrayList<ArrayList<Integer>> graph = temp.constGraph(allNodes, Main.fileName, this);
+        Main.setGraph(graph);
         return true;
     }
 
@@ -273,26 +264,15 @@ public class User extends Person  {
         return false;
     }
 
-    public ArrayList<ArrayList<Integer>> reconstructGraph(ArrayList<User> list) throws NullPointerException {
-        ConstructGraph g1 = new ConstructGraph(list);
-        graph = new ArrayList<>(list.size());
-        graph = g1.RetrieveGraph();
-        return graph;
-        // displayMatrix(graph);
-    }
 
-    
-    public static void displayMatrix() {
-        for (int i = 0; i < User.V; i++) {
-            for (int j = 0; j < User.V; j++) {
-                System.out.print(graph.get(i).get(j) + " ");
-            }
-            System.out.println();
-        }
-        System.out.println("===================\n");
-    }
+
+
     //////////// ********************************* */
 
+   /*  public ArrayList<User> distanceSuggestions(ArrayList<User> list,ArrayList<ArrayList<Integer>> graph ){
+        
+    }
+ */
     @Override
     public String toString() {
         return "User [ username=" + username

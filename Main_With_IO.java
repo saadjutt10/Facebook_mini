@@ -50,7 +50,7 @@ public class Main_With_IO implements Serializable {
         Address AddA = new Address(city, streetNo, houseNo);
         User nodeA = new User(allNodes, name, age, gender, cnic, pswrd, username, AddA);
         allNodes.add(nodeA);
-        ArrayList<ArrayList<Integer>> graph = new ArrayList<>(++(User.V));
+        ArrayList<ArrayList<Integer>> graph = new ArrayList<>(++(Main.V));
         Main_With_IO.writeData(allNodes, Main.fileName);
         ConstructGraph temp = new ConstructGraph(allNodes);
         graph = temp.constGraph(allNodes, Main.fileName,
@@ -60,7 +60,7 @@ public class Main_With_IO implements Serializable {
 
     public static ArrayList<ArrayList<Integer>> addNode(User p, ArrayList<User> allNodes) throws IOException {
         allNodes.add(p);
-        ArrayList<ArrayList<Integer>> graph = new ArrayList<>(++(User.V));
+        ArrayList<ArrayList<Integer>> graph = new ArrayList<>(++(Main.V));
         Main_With_IO.writeData(allNodes, Main.fileName);
         ConstructGraph temp = new ConstructGraph(allNodes);
         graph = temp.constGraph(allNodes, Main.fileName, p);
@@ -70,7 +70,7 @@ public class Main_With_IO implements Serializable {
 
     public static ArrayList<ArrayList<Integer>> removeNode(User p, ArrayList<User> allNodes) throws IOException {
         allNodes.remove(p);
-        ArrayList<ArrayList<Integer>> graph = new ArrayList<>(--(User.V));
+        ArrayList<ArrayList<Integer>> graph = new ArrayList<>(--(Main.V));
         Main_With_IO.writeData(allNodes, Main.fileName);
         ConstructGraph temp = new ConstructGraph(allNodes);
         graph = temp.constGraph(allNodes, Main.fileName, p);
@@ -101,9 +101,9 @@ public class Main_With_IO implements Serializable {
         ArrayList<User> allNodes = new ArrayList<>();
 
         ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
+        System.out.println(ois.readObject());
         @SuppressWarnings("unchecked")
         ArrayList<User> temp= (ArrayList<User>) ois.readObject();
-        // System.out.println(ois.readObject());
         return allNodes=temp;
 
     }
