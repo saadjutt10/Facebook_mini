@@ -210,10 +210,43 @@ public class User extends Person {
         ArrayList<User> list = new ArrayList<>();
         ArrayList<User> senderList = this.getFriends();
         ArrayList<User> receiverList = receiver.getFriends();
-        int indexA = 0; // index to iterate all friends of receiver to compare with sender friends
-        int indexR = 0;
+
         System.out.println(this.getUsername() + " has " + senderList.size());
         System.out.println(receiver.getUsername() + " has " + receiverList.size());
+        for (int i = 0; i < receiverList.size(); i++) {
+            for (int j = 0; j < receiverList.size(); j++) {
+                if (receiverList.get(i).equals(senderList.get(j))) {
+                    list.add(receiverList.get(i));
+                }
+            }
+        }
+
+        if (list.size() == 0) {
+            System.out.println("No Mutual Friends Found");
+        }
+        return list;
+    }
+
+    public ArrayList<User> getMutualFriendsList(ArrayList<User> allNodes, User receiver) {// Using Graphs
+        ArrayList<User> list = new ArrayList<>();
+        int src = FindIndexInList(list, this);
+        int rec = FindIndexInList(list, receiver);
+        ArrayList<User> senderList = new ArrayList<>();
+        ArrayList<User> receiverList = new ArrayList<>();
+
+        for (int j = 0; j < receiverList.size(); j++) { // Making a list of all friends of two users
+            if (Main.getGraph().get(src).get(j) == 1) {
+                senderList.add(allNodes.get(j));
+            }
+        }
+        for (int j = 0; j < receiverList.size(); j++) {
+            if (Main.getGraph().get(rec).get(j) == 1) {
+                receiverList.add(allNodes.get(j));
+            }
+        }
+        // System.out.println(this.getUsername() + " has " + senderList.size());
+        // System.out.println(receiver.getUsername() + " has " + receiverList.size());
+
         for (int i = 0; i < receiverList.size(); i++) {
             for (int j = 0; j < receiverList.size(); j++) {
                 if (receiverList.get(i).equals(senderList.get(j))) {
@@ -269,7 +302,7 @@ public class User extends Person {
 
     //////////// **************Graph Algos and suggestions******************* */
 
-    public int FindIndexInList(ArrayList<User> list, User name) {
+    public static int FindIndexInList(ArrayList<User> list, User name) {
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).equals(name))
                 return i;
@@ -287,7 +320,7 @@ public class User extends Person {
         que.add(this);
         while (!que.isEmpty()) {
             for (int j = 0; j < count; j++) {// Loop to indicate the number of times the inner loop needs to be executed
-                     count=0;                        // to cover one lvl nodes
+                count = 0; // to cover one lvl nodes
                 User temp = que.poll();
                 int position = FindIndexInList(list, temp);
                 for (int i = 0; i < list.size(); i++) { // one for each row
@@ -299,7 +332,7 @@ public class User extends Person {
                                 checkList[i] = true; // Before pushing the element in queue change its visited check to
                                                      // true
                                 que.add(list.get(i));
-                                if(list.get(i).getName().equals(name)){
+                                if (list.get(i).getName().equals(name)) {
                                     stk.push(list.get(i));
                                 }
                                 count++;
@@ -307,10 +340,11 @@ public class User extends Person {
                         }
                 }
             }
-            if(count==0){ //Incase there is no such friend of your friend that is not visited yet
-                count=1;
+            if (count == 0) { // Incase there is no such friend of your friend that is not visited yet
+                count = 1;
             }
-            stk.push(new User(null, name, name, count, name, name, name, "null", add)); // Pusing null each time one lvl is finished
+            stk.push(new User(null, name, name, count, name, name, name, "null", add)); // Pusing null each time one lvl
+                                                                                        // is finished
         }
         System.out.println(stk.size());
         for (User i : stk) {
@@ -335,6 +369,41 @@ public class User extends Person {
                 temp.add(user);
             }
         }
+        return temp;
+    }
+
+    public ArrayList<User> friendsOfFriends(ArrayList<User> list) throws IOException {
+        ArrayList<User> frnds = new ArrayList<>();
+        boolean chklist[] = new boolean[list.size()];
+        int src = FindIndexInList(list, this);
+        chklist[src]=true;
+        for (int j = 0; j < list.size(); j++) { // Loop to get all friends using graph and storing them in list
+            if (Main.getGraph().get(src).get(j) == 1) {
+                frnds.add(list.get(j));
+                chklist[j] = true;
+            }
+        }
+        ArrayList<User> temp = new ArrayList<>();
+        for (int i = 0; i < frnds.size(); i++) { // To iterate all frnds of source
+            // ArrayList<User> frndList = temp.get(i).getFriends();
+            ArrayList<User> frndList = new ArrayList<>();
+            int indexOfFriend = FindIndexInList(list, frnds.get(i));// Getting the index of current frnd node w.r.t allNodes(list)
+            for (int fof = 0; fof < list.size(); fof++) {// Loop to get all friends of you friends
+                if (Main.getGraph().get(indexOfFriend).get(fof) == 1) {
+                    System.out.println("Adding in temp :"+list.get(fof).getUsername());
+                    frndList.add(list.get(fof));
+                }
+            }
+            for (int j = 0; j < frndList.size(); j++) {// To iterate all friends of source's friend
+                int index = FindIndexInList(list, frndList.get(j));// Getting the index w.r.t allNodes
+                if (chklist[index] == false) {// Checking if the node is already visited or not
+                    chklist[index] = true;
+                    System.out.println("Adding :"+frndList.get(j).getUsername());
+                    temp.add(frndList.get(j));
+                }
+            }
+        }
+        
         return temp;
     }
 

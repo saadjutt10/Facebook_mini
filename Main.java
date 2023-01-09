@@ -76,10 +76,11 @@ public class Main implements Serializable {
 
 
         System.out.println("=======================");
-        allNodes.get(0).searching_Breadth(allNodes, "Bakr");
-        // System.out.println("=======================");
+        // allNodes.get(0).searching_Breadth(allNodes, "Bakr");
+        // ArrayList<User> reco= allNodes.get(0).friendsOfFriends(allNodes);
+        System.out.println("=======================");
         // System.out.println("Going dark");
-        // for (User i : allNodes) {
+        // for (User i : reco) {
         // System.out.println(i.getUsername());
         // }
 
