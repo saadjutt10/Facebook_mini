@@ -39,8 +39,8 @@ public class GetCoordinates {
     double list[]=new double[2];
     list[0]=latitude;
     list[1]=longitude;
-    System.out.println("Latitude is :"+ latitude);
-    System.out.println("longitude is :"+ longitude);
+    // System.out.println("Latitude is :"+ latitude);
+    // System.out.println("longitude is :"+ longitude);
     return list;
   }
   

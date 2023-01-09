@@ -31,7 +31,7 @@ public class User extends Person {
         return FrndReqs;
     }
 
-    public ArrayList<FriendRequest> getBlockedUsers() {
+    public ArrayList<User> getBlockedUsers() {
         return BlockedUsers;
     }
 
@@ -420,8 +420,8 @@ public class User extends Person {
                 int index = FindIndexInList(list, frndList.get(j));// Getting the index w.r.t allNodes
                 if (chklist[index] == false) {// Checking if the node is already visited or not
                     chklist[index] = true;
-                    System.out.println("Adding :" + frndList.get(j).getUsername());
                     if (!isBlocked(frndList.get(j))) {// If the user is not blocked then add in list
+                        System.out.println("Adding :" + frndList.get(j).getUsername());
                         temp.add(frndList.get(j));
                     }
                 }
