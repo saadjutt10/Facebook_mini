@@ -14,6 +14,7 @@ public class User extends Person {
     private String username;
     private String Password;
     ArrayList<FriendRequest> FrndReqs = new ArrayList<>();
+    ArrayList<User> BlockedUsers = new ArrayList<>();
 
     public User(ArrayList<User> list, String name, String lname, int age, String gender, String cnic, String pswrd,
             String un,
@@ -28,6 +29,10 @@ public class User extends Person {
 
     public ArrayList<FriendRequest> getFrndReqs() {
         return FrndReqs;
+    }
+
+    public ArrayList<FriendRequest> getBlockedUsers() {
+        return BlockedUsers;
     }
 
     public void setFrndReqs(ArrayList<FriendRequest> frndReqs) {
@@ -109,6 +114,18 @@ public class User extends Person {
 
     public void RemoveInterest(String newint) {
         this.interest.remove(newint);
+    }
+
+    public void block(User temp) {
+        BlockedUsers.add(temp);
+    }
+
+    public void unblock(User temp) {
+        BlockedUsers.remove(temp);
+    }
+
+    public boolean isBlocked(User temp) {
+        return BlockedUsers.contains(temp);
     }
 
     //////////// ********************Real Shit starts here************* */
@@ -333,7 +350,9 @@ public class User extends Person {
                                                      // true
                                 que.add(list.get(i));
                                 if (list.get(i).getName().equals(name)) {
-                                    stk.push(list.get(i));
+                                    if (!isBlocked(list.get(i))) {
+                                        stk.push(list.get(i));
+                                    }
                                 }
                                 count++;
                             }
@@ -366,7 +385,9 @@ public class User extends Person {
             String city2 = this.getAdd().getCity();
             double distance = GetDistance.DistanceBtCities(city, city2);
             if (distance <= 1000) {
-                temp.add(user);
+                if (!isBlocked(user)) {
+                    temp.add(user);
+                }
             }
         }
         return temp;
@@ -376,7 +397,7 @@ public class User extends Person {
         ArrayList<User> frnds = new ArrayList<>();
         boolean chklist[] = new boolean[list.size()];
         int src = FindIndexInList(list, this);
-        chklist[src]=true;
+        chklist[src] = true;
         for (int j = 0; j < list.size(); j++) { // Loop to get all friends using graph and storing them in list
             if (Main.getGraph().get(src).get(j) == 1) {
                 frnds.add(list.get(j));
@@ -387,10 +408,11 @@ public class User extends Person {
         for (int i = 0; i < frnds.size(); i++) { // To iterate all frnds of source
             // ArrayList<User> frndList = temp.get(i).getFriends();
             ArrayList<User> frndList = new ArrayList<>();
-            int indexOfFriend = FindIndexInList(list, frnds.get(i));// Getting the index of current frnd node w.r.t allNodes(list)
+            int indexOfFriend = FindIndexInList(list, frnds.get(i));// Getting the index of current frnd node w.r.t
+                                                                    // allNodes(list)
             for (int fof = 0; fof < list.size(); fof++) {// Loop to get all friends of you friends
                 if (Main.getGraph().get(indexOfFriend).get(fof) == 1) {
-                    System.out.println("Adding in temp :"+list.get(fof).getUsername());
+                    System.out.println("Adding in temp :" + list.get(fof).getUsername());
                     frndList.add(list.get(fof));
                 }
             }
@@ -398,12 +420,14 @@ public class User extends Person {
                 int index = FindIndexInList(list, frndList.get(j));// Getting the index w.r.t allNodes
                 if (chklist[index] == false) {// Checking if the node is already visited or not
                     chklist[index] = true;
-                    System.out.println("Adding :"+frndList.get(j).getUsername());
-                    temp.add(frndList.get(j));
+                    System.out.println("Adding :" + frndList.get(j).getUsername());
+                    if (!isBlocked(frndList.get(j))) {// If the user is not blocked then add in list
+                        temp.add(frndList.get(j));
+                    }
                 }
             }
         }
-        
+
         return temp;
     }
 
