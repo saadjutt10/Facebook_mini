@@ -44,17 +44,17 @@ public class Main_With_IO implements Serializable {
         }
     }
 
-    public static ArrayList<ArrayList<Integer>> addNode(String city, int streetNo, int houseNo, String name, int age,
+    public static ArrayList<ArrayList<Integer>> addNode(String city, int streetNo, int houseNo, String name,String lname, int age,
             String gender, String cnic, String pswrd, String username,
             ArrayList<User> allNodes) throws IOException {
         Address AddA = new Address(city, streetNo, houseNo);
-        User nodeA = new User(allNodes, name, age, gender, cnic, pswrd, username, AddA);
+        User nodeA = new User(allNodes, name,lname, age, gender, cnic, pswrd, username, AddA);
         allNodes.add(nodeA);
         ArrayList<ArrayList<Integer>> graph = new ArrayList<>(++(Main.V));
         Main_With_IO.writeData(allNodes, Main.fileName);
         ConstructGraph temp = new ConstructGraph(allNodes);
         graph = temp.constGraph(allNodes, Main.fileName,
-                new User(allNodes, name, age, gender, cnic, pswrd, username, AddA));
+                new User(allNodes, name,lname, age, gender, cnic, pswrd, username, AddA));
         return graph;
     }
 

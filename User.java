@@ -1,7 +1,9 @@
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Stack;
 
 import javafx.scene.canvas.GraphicsContext;
 
@@ -13,9 +15,10 @@ public class User extends Person {
     private String Password;
     ArrayList<FriendRequest> FrndReqs = new ArrayList<>();
 
-    public User(ArrayList<User> list, String name, int age, String gender, String cnic, String pswrd, String un,
+    public User(ArrayList<User> list, String name, String lname, int age, String gender, String cnic, String pswrd,
+            String un,
             Address add) {
-        super(name, age, gender, cnic);
+        super(name, lname, age, gender, cnic);
         this.add = add;
         this.Password = pswrd;
         this.username = un;
@@ -264,7 +267,6 @@ public class User extends Person {
         return false;
     }
 
-   
     //////////// **************Graph Algos and suggestions******************* */
 
     public int FindIndexInList(ArrayList<User> list, User name) {
@@ -276,27 +278,50 @@ public class User extends Person {
     }
 
     public ArrayList<User> searching_Breadth(ArrayList<User> list, String name) {
-        Queue<User> que;
+        Queue<User> que = new LinkedList<>();
+        Stack<User> stk = new Stack<>();
         boolean checkList[] = new boolean[list.size()];
         int source = FindIndexInList(list, this);
         checkList[source] = true; // Making source visited
+        int count = 1;// Variable to keep track of number of friends at lvl order
         que.add(this);
         while (!que.isEmpty()) {
-            User temp = que.poll();
-            int position= FindIndexInList(list, temp);
-            for (int i = 0; i < list.size(); i++) {
-                if (source != i)
-                    if (Main.getGraph().get(position).get(i) != 0) {
-                        // cout << i << " :Outer true \n";
-                        if (checkList[i] == false) // If already Visited just continue
-                        {
-                            // cout << "inner true \n";
-                            checkList[i] = true; // Before pushing the element in stack change its visited check to true
-                            que.add(list.get(i));
+            for (int j = 0; j < count; j++) {// Loop to indicate the number of times the inner loop needs to be executed
+                     count=0;                        // to cover one lvl nodes
+                User temp = que.poll();
+                int position = FindIndexInList(list, temp);
+                for (int i = 0; i < list.size(); i++) { // one for each row
+                    if (position != i)
+                        if (Main.getGraph().get(position).get(i) != 0) {
+                            // cout << i << " :Outer true \n";
+                            if (checkList[i] == false) // If already Visited just continue
+                            {
+                                checkList[i] = true; // Before pushing the element in queue change its visited check to
+                                                     // true
+                                que.add(list.get(i));
+                                if(list.get(i).getName().equals(name)){
+                                    stk.push(list.get(i));
+                                }
+                                count++;
+                            }
                         }
-                    }
+                }
+            }
+            if(count==0){ //Incase there is no such friend of your friend that is not visited yet
+                count=1;
+            }
+            stk.push(new User(null, name, name, count, name, name, name, "null", add)); // Pusing null each time one lvl is finished
+        }
+        System.out.println(stk.size());
+        for (User i : stk) {
+            if (i.getUsername().equals("null")) {
+                System.out.println();
+            } else {
+                System.out.println(i.getUsername());
             }
         }
+
+        return list;
     }
 
     public ArrayList<User> distanceSuggestions(ArrayList<User> list) throws IOException {
