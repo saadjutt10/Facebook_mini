@@ -138,7 +138,7 @@ JTextField usernameTextField , passwordTextField;
                             if(User.userExists(allNodes, usernameTextField.getText())){
                                 if(User.correctPassword(allNodes, passwordTextField.getText(),usernameTextField.getText() )){
                                     dispose();
-                                    System.out.println("Logging in");
+                                    new HomeWindow(User.getUser(allNodes, usernameTextField.getText()));
                                 }else{
                                     passwordTextField.setForeground(Color.red);
                                     passwordTextField.setText("InCorrect Password");
