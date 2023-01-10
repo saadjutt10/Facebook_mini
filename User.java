@@ -403,6 +403,7 @@ public class User extends Person {
                             // is finished
         }
         System.out.println(stk.size());
+        // int nullCount=0;
         for (User i : stk) {
             if (i!=null) {
                 if (i.getUsername().equals("null")) {
