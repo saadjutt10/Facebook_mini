@@ -15,6 +15,7 @@ public class User extends Person {
     private String Password;
     ArrayList<FriendRequest> FrndReqs = new ArrayList<>();
     ArrayList<User> BlockedUsers = new ArrayList<>();
+    String imageDir;
 
     public User(ArrayList<User> list, String name, String lname, int age, String gender, String cnic, String pswrd,
             String un,
@@ -29,6 +30,14 @@ public class User extends Person {
 
     public ArrayList<FriendRequest> getFrndReqs() {
         return FrndReqs;
+    }
+
+    public String getImageDir() {
+        return imageDir;
+    }
+
+    public void setImageDir(String imageDir) {
+        this.imageDir = imageDir;
     }
 
     public ArrayList<User> getBlockedUsers() {
@@ -314,6 +323,32 @@ public class User extends Person {
             }
         }
         System.out.println("NO Req found ");
+        return false;
+    }
+
+    public static boolean userExists(ArrayList<User> allNodes, String user) {
+        for (User i : allNodes) {
+            if (i.getUsername().equals(user)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static User getUser(ArrayList<User> allNodes, String user) {
+        for (User i : allNodes) {
+            if (i.getUsername().equals(user)) {
+                return i;
+            }
+        }
+        return null;
+    }
+
+    public static boolean correctPassword(ArrayList<User> allNodes, String pswd,String user) {
+        User temp=getUser(allNodes, user);
+        if(temp.getPassword().equals(pswd)){
+            return true;
+        }
         return false;
     }
 
