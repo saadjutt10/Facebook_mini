@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -344,9 +345,9 @@ public class User extends Person {
         return null;
     }
 
-    public static boolean correctPassword(ArrayList<User> allNodes, String pswd,String user) {
-        User temp=getUser(allNodes, user);
-        if(temp.getPassword().equals(pswd)){
+    public static boolean correctPassword(ArrayList<User> allNodes, String pswd, String user) {
+        User temp = getUser(allNodes, user);
+        if (temp.getPassword().equals(pswd)) {
             return true;
         }
         return false;
@@ -363,6 +364,7 @@ public class User extends Person {
     }
 
     public ArrayList<User> searching_Breadth(ArrayList<User> list, String name) {
+        ArrayList<User> temp_list = new ArrayList<>();
         Queue<User> que = new LinkedList<>();
         Stack<User> stk = new Stack<>();
         boolean checkList[] = new boolean[list.size()];
@@ -397,19 +399,22 @@ public class User extends Person {
             if (count == 0) { // Incase there is no such friend of your friend that is not visited yet
                 count = 1;
             }
-            stk.push(new User(null, name, name, count, name, name, name, "null", add)); // Pusing null each time one lvl
-                                                                                        // is finished
+            stk.push(null); // Pusing null each time one lvl
+                            // is finished
         }
         System.out.println(stk.size());
         for (User i : stk) {
-            if (i.getUsername().equals("null")) {
-                System.out.println();
-            } else {
-                System.out.println(i.getUsername());
+            if (i!=null) {
+                if (i.getUsername().equals("null")) {
+                    System.out.println();
+                } else {
+                    System.out.println(i.getUsername());
+                    temp_list.add(i);
+                }
             }
         }
 
-        return list;
+        return temp_list;
     }
 
     public ArrayList<User> distanceSuggestions(ArrayList<User> list) throws IOException {

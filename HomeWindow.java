@@ -139,18 +139,40 @@ public class HomeWindow extends JFrame {
         // Adding to Main Frame
         add(infoPanel);
         add(fCentre);
-        //*******************Adding Action Listners */
-        MyActionListener al=new MyActionListener();
+        // *******************Adding Action Listners */
+        MyActionListener al = new MyActionListener();
+        MyActionListener alA = new MyActionListener(user);
         logoutBtn.addActionListener(al);
         settingBtn.addActionListener(al);
+        searchBtn.addActionListener(alA);
+        recBtn.addActionListener(al);
+        frndsBtn.addActionListener(al);
 
     }
 
     class MyActionListener implements ActionListener {
+        User user;
+
+        MyActionListener() {
+
+        }
+
+        MyActionListener(User u) {
+            user = u;
+        }
+
         public void actionPerformed(ActionEvent e) {
             if (e.getActionCommand() == "Logout") {
                 dispose();
                 new Login();
+            } else if (e.getActionCommand() == "Search") {
+                dispose();
+                try {
+                    new SearchWindow(user,"Bakr");
+                } catch (ClassNotFoundException | IOException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
             }
         }
     }
