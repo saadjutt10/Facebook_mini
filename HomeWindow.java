@@ -143,10 +143,10 @@ public class HomeWindow extends JFrame {
         MyActionListener al = new MyActionListener();
         MyActionListener alA = new MyActionListener(user);
         logoutBtn.addActionListener(al);
-        settingBtn.addActionListener(al);
+        settingBtn.addActionListener(alA);
         searchBtn.addActionListener(alA);
-        recBtn.addActionListener(al);
-        frndsBtn.addActionListener(al);
+        recBtn.addActionListener(alA);
+        frndsBtn.addActionListener(alA);
 
     }
 
@@ -170,6 +170,18 @@ public class HomeWindow extends JFrame {
                 try {
                     new SearchWindow(user,"");
                 } catch (ClassNotFoundException | IOException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+            }else if(e.getActionCommand()=="Recommendations"){
+                
+                dispose();
+                try {
+                    new RecoWindow(user);
+                } catch (ClassNotFoundException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                } catch (IOException e1) {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
