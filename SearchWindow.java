@@ -160,7 +160,8 @@ public class SearchWindow extends JFrame {
         add(topPanel, BorderLayout.NORTH);
         add(centerPanel, BorderLayout.CENTER);
         add(btnPanel, BorderLayout.SOUTH);
-
+        //Printing Graph
+        ConstructGraph.displayMatrix();
         // Action Listeners
         searchButton.addActionListener(alA);
         homeBtn.addActionListener(alA);
@@ -199,8 +200,8 @@ public class SearchWindow extends JFrame {
                 for (int i = 0; i < 5; i++) {
                     if (command.equals(i + "Add")) {
                         try {
-                            user.sendReq(allNodes, list.get(i).getUsername());
-                            System.out.println("Sent");
+                            user.addFriend(allNodes, list.get(i).getUsername());
+                            
                         } catch (NullPointerException | IOException e1) {
                             // TODO Auto-generated catch block
                             e1.printStackTrace();

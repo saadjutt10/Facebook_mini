@@ -181,8 +181,8 @@ public class HomeWindow extends JFrame {
                 dispose();
                 new Login();
             } else if (e.getActionCommand() == "Search") {
-                dispose();
                 try {
+                    dispose();
                     new SearchWindow(user, "");
                 } catch (ClassNotFoundException | IOException e1) {
                     // TODO Auto-generated catch block
@@ -190,8 +190,8 @@ public class HomeWindow extends JFrame {
                 }
             } else if (e.getActionCommand() == "Recommendations") {
 
-                dispose();
                 try {
+                    dispose();
                     new RecoWindow(user);
                 } catch (ClassNotFoundException e1) {
                     // TODO Auto-generated catch block

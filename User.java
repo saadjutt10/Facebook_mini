@@ -197,6 +197,7 @@ public class User extends Person {
         ConstructGraph temp = new ConstructGraph(allNodes);
         ArrayList<ArrayList<Integer>> graph = temp.constGraph(allNodes, Main.fileName, this);
         Main.setGraph(graph);
+        ConstructGraph.displayMatrix();
 
         return true;
     }

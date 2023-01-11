@@ -172,8 +172,7 @@ public class Login extends JFrame {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
-            }
-            if (e.getActionCommand() == "Sign up") {
+            } else if (e.getActionCommand() == "Sign Up") {
                 dispose();
                 new Signup();
             }

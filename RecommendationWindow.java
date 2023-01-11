@@ -9,17 +9,18 @@ import javax.swing.*;
 
 public class RecommendationWindow extends JFrame {
     ArrayList<User> allNodes;
-    ArrayList<User> list=new ArrayList<>();
+    ArrayList<User> list = new ArrayList<>();
     JPanel panels[];
-    User user=Main_With_IO.getAllNodes("Data.txt").get(3);
-    RecommendationWindow(User user1,String ac) throws ClassNotFoundException, IOException {
+    User user = Main_With_IO.getAllNodes("Data.txt").get(3);
+
+    RecommendationWindow(User user1, String ac) throws ClassNotFoundException, IOException {
         setSize(800, 500);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
         setTitle("Recommendation Window ha vro");
         setLayout(new BorderLayout(0, 20));
         allNodes = Main_With_IO.getAllNodes("Data.txt");
-        System.out.println("Herererkenrkenkjnf"+user.getUsername() );
+        System.out.println("Herererkenrkenkjnf" + user.getUsername());
         Main.getGraph();
         Main.V = allNodes.size();
         Main.setGraph(ConstructGraph.reconstructGraph(allNodes));
@@ -27,7 +28,7 @@ public class RecommendationWindow extends JFrame {
         if (ac.equals("distance")) {
             list = user.distanceSuggestions(allNodes);
         } else if (ac.equals("fof")) {
-            list = User.friendsOfFriends(allNodes,user);
+            list = User.friendsOfFriends(allNodes, user);
         }
         int n = list.size();
         if (n < 4)
@@ -91,6 +92,9 @@ public class RecommendationWindow extends JFrame {
                 // cornerPanel.add(new JLabel(""));
                 cornerPanel.add(addBtnPanel);
                 cornerPanel.add(settingBtnPanel);
+
+                ConstructGraph.displayMatrix();
+
                 // cornerPanel.add(new JLabel(""));
                 // Adding actionListener
                 addBtn.addActionListener(alA);
@@ -153,6 +157,28 @@ public class RecommendationWindow extends JFrame {
                 dispose();
                 new HomeWindow(user);
 
+            }else {
+                String command = e.getActionCommand();
+                System.out.println(command);
+                for (int i = 0; i < 5; i++) {
+                    if (command.equals(i + "Add")) {
+                        try {
+                            user.addFriend(allNodes, list.get(i).getUsername());
+                            
+                        } catch (NullPointerException | IOException e1) {
+                            // TODO Auto-generated catch block
+                            e1.printStackTrace();
+                        }
+                    } else if (command.equals(i + "Block")) {
+                        try {
+                            user.block(list.get(i), allNodes);
+                        } catch (IOException e1) {
+                            // TODO Auto-generated catch block
+                            e1.printStackTrace();
+                        }
+                        System.out.println("Blocked");
+                    }
+                }
             }
         }
     }
