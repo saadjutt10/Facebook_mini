@@ -1,5 +1,3 @@
-
-//  package GUI;
 import java.awt.*;
 import java.awt.Color;
 import java.awt.event.*;
@@ -9,35 +7,36 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
-public class SearchWindow extends JFrame {
-    JTextField searchField;
+public class RecommendationWindow extends JFrame {
+    ArrayList<User> allNodes;
+    ArrayList<User> list;
     JPanel panels[];
-    ArrayList<User> allNodes ;ArrayList<User> list ;
-    SearchWindow(User user, String name) throws ClassNotFoundException, IOException {
+
+    RecommendationWindow(User user ,String ac) throws ClassNotFoundException, IOException {
         setSize(800, 500);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
-        setTitle("Search");
+        setTitle("Recommendation Window ha vro");
         setLayout(new BorderLayout(0, 20));
         allNodes = Main_With_IO.getAllNodes("Data.txt");
-        System.out.println(allNodes.size() + "-----All nodes size"  );
         Main.getGraph();
         Main.V = allNodes.size();
         Main.setGraph(ConstructGraph.reconstructGraph(allNodes));
-         list  = user.searching_Breadth(allNodes, name);
-
-        System.out.println(list.size() + "-----" + name);
-        // System.out.println(list.size());
-
+        // Getting which recommendation to run
+        if (ac.equals("distance")) {
+            list = user.distanceSuggestions(allNodes);
+        } else if (ac.equals("fof")) {
+            list = user.friendsOfFriends(allNodes);
+        }
         int n = list.size();
         if (n < 4)
             n = 4;
 
         JPanel centerPanel = new JPanel();
         centerPanel.setLayout(new GridLayout(n, 1, 30, 10));
-         panels = new JPanel[list.size()];
-         
-        MyActionListener alA = new MyActionListener(user,allNodes,list);
+        panels = new JPanel[list.size()];
+
+        MyActionListener alA = new MyActionListener(user, allNodes, list);
         for (int i = 0; i < panels.length; i++) {
             panels[i] = new JPanel();
             panels[i].setLayout(new GridLayout(1, 4));
@@ -67,16 +66,18 @@ public class SearchWindow extends JFrame {
             {// Buttons
                 cornerPanel.setLayout(new GridLayout(2, 1, 50, 0));
                 JButton addBtn = new JButton("Add");
-                addBtn.setActionCommand(i+"Add");
+                addBtn.setActionCommand(i + "Add");
                 addBtn.setPreferredSize(new Dimension(80, 30));
-                if(User.getUser(allNodes, user.getUsername()).getFriends().contains(list.get(i))){//Condition to check if they are already friends
+                if (User.getUser(allNodes, user.getUsername()).getFriends().contains(list.get(i))) {// Condition to
+                                                                                                    // check if they are
+                                                                                                    // already friends
                     addBtn.setEnabled(false);
                 }
                 JPanel addBtnPanel = new JPanel();
                 addBtnPanel.add(addBtn);
                 addBtnPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
                 JButton settingBtn = new JButton("Block");
-                settingBtn.setActionCommand(i+"Block");
+                settingBtn.setActionCommand(i + "Block");
                 settingBtn.setPreferredSize(new Dimension(80, 30));
                 JPanel settingBtnPanel = new JPanel();
                 settingBtnPanel.add(settingBtn);
@@ -86,7 +87,7 @@ public class SearchWindow extends JFrame {
                 cornerPanel.add(addBtnPanel);
                 cornerPanel.add(settingBtnPanel);
                 // cornerPanel.add(new JLabel(""));
-                //Adding actionListener
+                // Adding actionListener
                 addBtn.addActionListener(alA);
                 settingBtn.addActionListener(alA);
             }
@@ -101,34 +102,15 @@ public class SearchWindow extends JFrame {
         }
         // TOp Text Panel
         JPanel topPanel = new JPanel();
-        topPanel.setLayout(new GridLayout(2, 1));
-        // searchbar
-        JPanel seachPanel = new JPanel();
-        seachPanel.setLayout(new BorderLayout(20, 10));
-        JLabel searchimg;
-        {// Search image
-            searchimg = new JLabel();
-            ImageIcon sicon = new ImageIcon("search.png");
-            Image simg = sicon.getImage();
-            Image sNewimg = simg.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
-            searchimg.setIcon(new ImageIcon(sNewimg));
-        }
-
-        searchField = new JTextField(10);
-        JButton searchButton = new JButton("Search");
-        seachPanel.add(searchimg, BorderLayout.WEST);
-        seachPanel.add(searchField, BorderLayout.CENTER);
-        seachPanel.add(searchButton, BorderLayout.EAST);
 
         // text
         JPanel topTextPanel = new JPanel();
         topTextPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-        JLabel topText = new JLabel("Welcome to search page");
+        JLabel topText = new JLabel("Here are your recommendations");
         topText.setFont(new Font("Arial", Font.PLAIN, 25));
         topTextPanel.add(topText);
 
         // Adding panels to top panel
-        topPanel.add(seachPanel);
         topPanel.add(topTextPanel);
         // Bottom Button Panel
         JPanel btnPanel = new JPanel();
@@ -142,64 +124,35 @@ public class SearchWindow extends JFrame {
         add(btnPanel, BorderLayout.SOUTH);
 
         // Action Listeners
-        searchButton.addActionListener(alA);
         homeBtn.addActionListener(alA);
+
     }
 
     class MyActionListener implements ActionListener {
         User user;
         ArrayList<User> allNodes;
         ArrayList<User> list;
+
         MyActionListener() {
 
         }
 
-        MyActionListener(User u,  ArrayList<User> allNodes,ArrayList<User> lis) {
+        MyActionListener(User u, ArrayList<User> allNodes, ArrayList<User> lis) {
             user = u;
-            this.allNodes=allNodes;
-            list=lis;
+            this.allNodes = allNodes;
+            list = lis;
         }
 
         public void actionPerformed(ActionEvent e) {
-            if (e.getActionCommand() == "Search") {
-                dispose();
-                try {
-                    new SearchWindow(user, searchField.getText());
-                } catch (ClassNotFoundException | IOException e1) {
-                    // TODO Auto-generated catch block
-                    e1.printStackTrace();
-                }
-            } else if (e.getActionCommand() == "Home") {
-                dispose();
-                new HomeWindow(user);
-            } else{
-                String command=e.getActionCommand();
-                System.out.println(command);
-                for(int i =0 ; i<5 ; i++){
-                    if(command.equals(i+"Add")){
-                        try {
-                            user.sendReq(allNodes, list.get(i).getUsername());
-                            System.out.println("Sent");
-                        } catch (NullPointerException | IOException e1) {
-                            // TODO Auto-generated catch block
-                            e1.printStackTrace();
-                        }
-                    }else if(command.equals(i+"Block")){
-                        try {
-                            user.block(list.get(i),allNodes);
-                        } catch (IOException e1) {
-                            // TODO Auto-generated catch block
-                            e1.printStackTrace();
-                        }
-                        System.out.println("Blocked");
-                    }
-                }
-            } 
+                if (e.getActionCommand() == "Home") {
+                    dispose();
+                    new HomeWindow(user);
+                
+            }
         }
     }
-
     public static void main(String[] args) throws ClassNotFoundException, IOException {
         ArrayList<User> re = Main_With_IO.getAllNodes("Data.txt");
-        new SearchWindow(re.get(0), "Bakr");
+        new RecommendationWindow(re.get(0),"distance");
     }
 }

@@ -126,12 +126,25 @@ public class User extends Person {
         this.interest.remove(newint);
     }
 
-    public void block(User temp) {
-        BlockedUsers.add(temp);
+    public void block(User temp,ArrayList<User> allNodes) throws IOException {
+        for(User i : allNodes ){
+            if(i.equals(this)){
+                i.getBlockedUsers().add(temp);
+                System.out.println(temp.getUsername());
+                break;
+            }
+        }
+        Main_With_IO.writeData(allNodes, Main.fileName);
     }
 
-    public void unblock(User temp) {
-        BlockedUsers.remove(temp);
+    public void unblock(User temp,ArrayList<User> allNodes) throws IOException {
+        for(User i : allNodes ){
+            if(i.equals(this)){
+                i.getBlockedUsers().remove(temp);
+                break;
+            }
+        }
+        Main_With_IO.writeData(allNodes, Main.fileName);
     }
 
     public boolean isBlocked(User temp) {
@@ -421,16 +434,19 @@ public class User extends Person {
     public ArrayList<User> distanceSuggestions(ArrayList<User> list) throws IOException {
         ArrayList<User> temp = new ArrayList<>();// Taking for 1000km
         for (int i = 0; i < list.size(); i++) {
-            User user = list.get(i);
-            String city = user.getAdd().getCity();
-            String city2 = this.getAdd().getCity();
-            double distance = GetDistance.DistanceBtCities(city, city2);
-            if (distance <= 1000) {
-                if (!isBlocked(user)) {
-                    temp.add(user);
+            if(i!=FindIndexInList(list, this)){
+                User user = list.get(i);
+                String city = user.getAdd().getCity();
+                String city2 = this.getAdd().getCity();
+                double distance = GetDistance.DistanceBtCities(city, city2);
+                if (distance <= 1000) {
+                    if (!isBlocked(user)) {
+                        temp.add(user);
+                    }
                 }
             }
-        }
+            }
+           
         return temp;
     }
 

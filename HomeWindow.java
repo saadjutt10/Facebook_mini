@@ -168,7 +168,7 @@ public class HomeWindow extends JFrame {
             } else if (e.getActionCommand() == "Search") {
                 dispose();
                 try {
-                    new SearchWindow(user,"Bakr");
+                    new SearchWindow(user,"");
                 } catch (ClassNotFoundException | IOException e1) {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();

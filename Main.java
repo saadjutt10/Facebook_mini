@@ -69,22 +69,22 @@ public class Main implements Serializable {
         // Let's say the user trying to login is first from the list
         // User user1=allNodes.get(0);
         // user1.displayMatrix();
-        reset();
+        // reset();
         ArrayList<User> allNodes = Main_With_IO.getAllNodes(fileName);
 
         V = allNodes.size();
         graph = new ArrayList<>(V);
         graph = ConstructGraph.reconstructGraph(allNodes);
-        ConstructGraph.displayMatrix();
+        // ConstructGraph.displayMatrix();
         // Adding new node
         // Address ad5 = new Address("Multan", 22, 10);
         // User s5 = new User(allNodes, "Bakr","Khokhar", 19, "Male", "23323", "bakr2",
         // "bakr2", ad5);
-
         // graph=Main_With_IO.addNode(s5, allNodes);
-        // System.out.println(allNodes.get(allNodes.size()-1));
-        // User.getUser(allNodes,"bakr1").addFriend(allNodes, "bakr2");
-        allNodes.get(0).searching_Breadth(allNodes, "Bakr");
+
+        // // // System.out.println(allNodes.get(allNodes.size()-1));
+        // // User.getUser(allNodes,"bakr1").addFriend(allNodes, "bakr2");
+        // allNodes.get(0).searching_Breadth(allNodes, "Bakr");
         // allNodes.get(allNodes.size() - 1).addFriend(allNodes, "bakr2");
         // ArrayList<User> ds = allNodes.get(0).getBlockedUsers();
         // System.out.println("Going dark");
@@ -99,9 +99,12 @@ public class Main implements Serializable {
         ConstructGraph.displayMatrix();
 
         System.out.println("=======================");
-        // allNodes.get(0).searching_Breadth(allNodes, "Bakr");
-        // allNodes.get(0).block(allNodes.get(3));
-        // ArrayList<User> reco= allNodes.get(0).distanceSuggestions(allNodes);
+        // allNodes.get(0).block( allNodes.get(allNodes.size()-1),allNodes);
+        // allNodes.get(0).unblock(allNodes.get(allNodes.size()-2), allNodes);
+    //   allNodes.get(0).resetBlockedUsers(allNodes);
+
+        allNodes.get(0).block(allNodes.get(allNodes.size()-1),allNodes);
+        ArrayList<User> reco= allNodes.get(0).getBlockedUsers();
         // System.out.println("=======================");
         // System.out.println("Going dark");
         // for (User i : reco) {
@@ -110,13 +113,13 @@ public class Main implements Serializable {
 
         // System.out.println("=======================");
         // allNodes.get(0).searching_Breadth(allNodes, "Bakr");
-        // allNodes.get(0).unblock(allNodes.get(3));
+        // allNodes.get(0).unblock(allNodes.get(3),allNodes);
         // reco= allNodes.get(0).distanceSuggestions(allNodes);
         // System.out.println("=======================");
-        // System.out.println("Going dark");
-        // for (User i : reco) {
-        // System.out.println(i.getUsername());
-        // }
+        System.out.println("Going dark");
+        for (User i : reco) {
+        System.out.println(i.getUsername());
+        }
 
         // User login=new User(allNodes, fileName, 0, fileName, fileName, fileName,
         // fileName, null);
