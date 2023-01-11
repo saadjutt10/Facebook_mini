@@ -185,7 +185,13 @@ public class HomeWindow extends JFrame {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
+            }else if(e.getActionCommand()=="Setting"){
+                dispose();
+                new SettingsWindow(user);
             }
         }
+    }
+    public static void main(String[] args) throws ClassNotFoundException, IOException {
+        new HomeWindow(Main_With_IO.getAllNodes("Data.txt").get(3));
     }
 }

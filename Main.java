@@ -5,6 +5,8 @@ import java.util.ArrayList;
 public class Main implements Serializable {
 
     static String fileName = "Data.txt";
+    static String DarkColor = "152A38";
+    static String notDarkColor = "F900BF";
     static int V = 0;// No of nodes in graph
     private static ArrayList<ArrayList<Integer>> graph;
 
@@ -100,10 +102,11 @@ public class Main implements Serializable {
 
         System.out.println("=======================");
         // allNodes.get(0).block( allNodes.get(allNodes.size()-1),allNodes);
-        // allNodes.get(0).unblock(allNodes.get(allNodes.size()-2), allNodes);
+        allNodes.get(0).unblock(allNodes.get(allNodes.size()-2), allNodes);
+        allNodes.get(0).unblock(allNodes.get(3), allNodes);
     //   allNodes.get(0).resetBlockedUsers(allNodes);
 
-        allNodes.get(0).block(allNodes.get(allNodes.size()-1),allNodes);
+        // allNodes.get(0).block(allNodes.get(3),allNodes);
         ArrayList<User> reco= allNodes.get(0).getBlockedUsers();
         // System.out.println("=======================");
         // System.out.println("Going dark");

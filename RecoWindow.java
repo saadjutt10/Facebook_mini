@@ -64,9 +64,9 @@ public class RecoWindow extends JFrame {
         add(topTxtPanel, BorderLayout.NORTH);
         add(middlePanel, BorderLayout.CENTER);
         add(btnPanel, BorderLayout.SOUTH);
-        //Action Listeners
-        ArrayList<User> allNodes=Main_With_IO.getAllNodes("Data.txt");
-        MyActionListener alA=new MyActionListener(user,allNodes);
+        // Action Listeners
+        ArrayList<User> allNodes = Main_With_IO.getAllNodes("Data.txt");
+        MyActionListener alA = new MyActionListener(user, allNodes);
         homeBtn.addActionListener(alA);
         frnBtn.addActionListener(alA);
         distanceBtn.addActionListener(alA);
@@ -90,17 +90,21 @@ public class RecoWindow extends JFrame {
             if (e.getActionCommand() == "Home") {
                 dispose();
                 new HomeWindow(user);
-            } else if (e.getActionCommand() == "Friends of Friends") {
-                dispose();
+            } else if (e.getActionCommand() == "Recommend by distance") {
                 try {
+                    dispose();
                     new RecommendationWindow(user, "fof");
-                } catch (ClassNotFoundException | IOException e1) {
+                } catch (ClassNotFoundException e2) {
                     // TODO Auto-generated catch block
-                    e1.printStackTrace();
+                    e2.printStackTrace();
+                } catch (IOException e2) {
+                    // TODO Auto-generated catch block
+                    e2.printStackTrace();
                 }
             } else if (e.getActionCommand() == "Recommend by distance") {
-                dispose();
+
                 try {
+                    dispose();
                     new RecommendationWindow(user, "distance");
                 } catch (ClassNotFoundException e1) {
                     // TODO Auto-generated catch block
@@ -110,6 +114,7 @@ public class RecoWindow extends JFrame {
                     e1.printStackTrace();
                 }
             }
+
         }
     }
 

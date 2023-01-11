@@ -29,10 +29,8 @@ JTextField usernameTextField , passwordTextField;
         // JLabel img = new JLabel();
         // img.setIcon(new ImageIcon("moaaz.jpg"));
         JLabel imageLabel = new JLabel();
-        imageLabel.setIcon(new ImageIcon("moaaz.jpg"));
-        // imageLabel.setIcon(new ImageIcon(new
-        // ImageIcon("moaaz.jpg").getImage().getScaledInstance(200, 200,
-        // Image.SCALE_DEFAULT)));
+        imageLabel.setIcon(new ImageIcon("login.jpg"));
+         imageLabel.setIcon(new ImageIcon(new ImageIcon("login.jpg").getImage().getScaledInstance(400, 500,Image.SCALE_DEFAULT)));
         // Dimension s=img.getPreferredSize();
         // img.setBounds(50, 30, s.width, (int) s.getHeight());
 
@@ -45,44 +43,52 @@ JTextField usernameTextField , passwordTextField;
 
         // Create the labels and textfields for username and password
         JLabel usernameLabel = new JLabel("Username:");
+        usernameLabel.setForeground(Color.white);
          usernameTextField = new JTextField(20);
         JLabel passwordLabel = new JLabel("Password:");
+        passwordLabel.setForeground(Color.white);
          passwordTextField = new JTextField(20);
 
         // Create the login and sign up buttons
         JButton loginButton = new JButton("Login");
         JPanel b1=new JPanel();
         b1.add(loginButton);
+        
+        b1.setBackground(Color.decode("#"+Main.DarkColor));
         b1.setPreferredSize(new Dimension(120,80));
         //Signup
         JButton signupButton = new JButton("Sign Up");
         JPanel b2=new JPanel();
         b2.add(signupButton);
+        b2.setBackground(Color.decode("#"+Main.DarkColor));
         b2.setPreferredSize(new Dimension(120,80));
 
         // Create a panel to hold the textfields and labels
         JPanel rightPanel = new JPanel();
         rightPanel.setLayout(new GridLayout(3, 1));
-        rightPanel.setBackground(Color.BLACK);
+        rightPanel.setBackground(Color.decode("#"+Main.DarkColor));
     
         //Panel for 2nd row rightPanel
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout(150,0));
-        mainPanel.setBackground(Color.RED);
+        mainPanel.setBackground(Color.decode("#"+Main.DarkColor));
 
         //Compo Panel to be added in centre of mainPanel
         JPanel compoPanel = new JPanel();
         compoPanel.setLayout(new GridLayout(3,1));
+        compoPanel.setBackground(Color.decode("#"+Main.DarkColor));
 
         JPanel fieldsJPanel =new JPanel();
         fieldsJPanel.setLayout(new FlowLayout());
         fieldsJPanel.add(usernameLabel);
         fieldsJPanel.add(usernameTextField);
+        fieldsJPanel.setBackground(Color.decode("#"+Main.DarkColor));
 
         JPanel fieldsJPanel2 =new JPanel();
         fieldsJPanel2.setLayout(new FlowLayout());
         fieldsJPanel2.add(passwordLabel);
         fieldsJPanel2.add(passwordTextField);
+        fieldsJPanel2.setBackground(Color.decode("#"+Main.DarkColor));
 
         JPanel btnPanel=new JPanel();
         btnPanel.setLayout(new GridLayout(1,4));
@@ -90,6 +96,8 @@ JTextField usernameTextField , passwordTextField;
         btnPanel.add(new JLabel(""));
         btnPanel.add(b1);
         btnPanel.add(b2);
+        btnPanel.setBackground(Color.decode("#"+Main.DarkColor));
+        // btnPanel.setForeground(Color.white);
 
         //Adding panels to compoPanel
         compoPanel.add(fieldsJPanel);
@@ -99,12 +107,17 @@ JTextField usernameTextField , passwordTextField;
 
         //Making a panel for Welcome msg
         JPanel txtOuter = new JPanel();
+        txtOuter.setBackground(Color.decode("#"+Main.DarkColor));
         txtOuter.setLayout(new GridLayout(3,1));
 
         JPanel centreTextPanel=new JPanel();
+        centreTextPanel.setBackground(Color.decode("#"+Main.DarkColor));
         centreTextPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
         JPanel welcomeText=new JPanel();
+        
+        welcomeText.setBackground(Color.decode("#"+Main.notDarkColor));
         JLabel wtxt=new JLabel("Welcome to Home Window");
+        wtxt.setForeground(Color.white);
         wtxt.setFont(new Font("Arial", Font.PLAIN, 17));
         welcomeText.add(wtxt);
         txtOuter.add(new JLabel(" "));

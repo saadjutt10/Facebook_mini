@@ -12,13 +12,14 @@ public class RecommendationWindow extends JFrame {
     ArrayList<User> list;
     JPanel panels[];
 
-    RecommendationWindow(User user ,String ac) throws ClassNotFoundException, IOException {
+    RecommendationWindow(User user,String ac) throws ClassNotFoundException, IOException {
         setSize(800, 500);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
         setTitle("Recommendation Window ha vro");
         setLayout(new BorderLayout(0, 20));
         allNodes = Main_With_IO.getAllNodes("Data.txt");
+        System.out.println("Herererkenrkenkjnf"+user.getUsername() +""+User.FindIndexInList(list, user));
         Main.getGraph();
         Main.V = allNodes.size();
         Main.setGraph(ConstructGraph.reconstructGraph(allNodes));
@@ -68,11 +69,15 @@ public class RecommendationWindow extends JFrame {
                 JButton addBtn = new JButton("Add");
                 addBtn.setActionCommand(i + "Add");
                 addBtn.setPreferredSize(new Dimension(80, 30));
-                if (User.getUser(allNodes, user.getUsername()).getFriends().contains(list.get(i))) {// Condition to
-                                                                                                    // check if they are
-                                                                                                    // already friends
-                    addBtn.setEnabled(false);
+                ArrayList<User> frndList = User.getUser(allNodes, user.getUsername()).getFriends();
+                if (frndList.size() >= 1) {
+                    if (frndList.contains(list.get(i))) {// Condition to
+                        // check if they are
+                        // already friends
+                        addBtn.setEnabled(false);
+                    }
                 }
+
                 JPanel addBtnPanel = new JPanel();
                 addBtnPanel.add(addBtn);
                 addBtnPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
@@ -144,15 +149,16 @@ public class RecommendationWindow extends JFrame {
         }
 
         public void actionPerformed(ActionEvent e) {
-                if (e.getActionCommand() == "Home") {
-                    dispose();
-                    new HomeWindow(user);
-                
+            if (e.getActionCommand() == "Home") {
+                dispose();
+                new HomeWindow(user);
+
             }
         }
     }
+
     public static void main(String[] args) throws ClassNotFoundException, IOException {
         ArrayList<User> re = Main_With_IO.getAllNodes("Data.txt");
-        new RecommendationWindow(re.get(0),"distance");
+        new RecommendationWindow(re.get(0), "distance");
     }
 }

@@ -454,6 +454,7 @@ public class User extends Person {
         ArrayList<User> frnds = new ArrayList<>();
         boolean chklist[] = new boolean[list.size()];
         int src = FindIndexInList(list, this);
+        System.out.println("Index of usr is :"+src);
         chklist[src] = true;
         for (int j = 0; j < list.size(); j++) { // Loop to get all friends using graph and storing them in list
             if (Main.getGraph().get(src).get(j) == 1) {
@@ -461,10 +462,11 @@ public class User extends Person {
                 chklist[j] = true;
             }
         }
+
         ArrayList<User> temp = new ArrayList<>();
+        ArrayList<User> frndList=new ArrayList<>();
         for (int i = 0; i < frnds.size(); i++) { // To iterate all frnds of source
             // ArrayList<User> frndList = temp.get(i).getFriends();
-            ArrayList<User> frndList = new ArrayList<>();
             int indexOfFriend = FindIndexInList(list, frnds.get(i));// Getting the index of current frnd node w.r.t
                                                                     // allNodes(list)
             for (int fof = 0; fof < list.size(); fof++) {// Loop to get all friends of you friends
@@ -477,10 +479,10 @@ public class User extends Person {
                 int index = FindIndexInList(list, frndList.get(j));// Getting the index w.r.t allNodes
                 if (chklist[index] == false) {// Checking if the node is already visited or not
                     chklist[index] = true;
-                    if (!isBlocked(frndList.get(j))) {// If the user is not blocked then add in list
+                    // if (!isBlocked(frndList.get(j))) {// If the user is not blocked then add in list
                         System.out.println("Adding :" + frndList.get(j).getUsername());
                         temp.add(frndList.get(j));
-                    }
+                    // }
                 }
             }
         }
