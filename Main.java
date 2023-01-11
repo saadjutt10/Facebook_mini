@@ -69,7 +69,7 @@ public class Main implements Serializable {
         // Let's say the user trying to login is first from the list
         // User user1=allNodes.get(0);
         // user1.displayMatrix();
-        // reset();
+        reset();
         ArrayList<User> allNodes = Main_With_IO.getAllNodes(fileName);
 
         V = allNodes.size();
@@ -96,7 +96,7 @@ public class Main implements Serializable {
         // System.out.println("File read successfully");
         // allNodes.get(0).displayMatrix();
         // Main_With_IO.writeData(allNodes, fileName);
-        // ConstructGraph.displayMatrix();
+        ConstructGraph.displayMatrix();
 
         System.out.println("=======================");
         // allNodes.get(0).searching_Breadth(allNodes, "Bakr");

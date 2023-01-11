@@ -12,21 +12,22 @@ import javax.swing.*;
 public class SearchWindow extends JFrame {
     JTextField searchField;
     JPanel panels[];
-    ArrayList<User> list ;
+    ArrayList<User> allNodes ;ArrayList<User> list ;
     SearchWindow(User user, String name) throws ClassNotFoundException, IOException {
         setSize(800, 500);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
         setTitle("Search");
         setLayout(new BorderLayout(0, 20));
-        ArrayList<User> allNodes = Main_With_IO.getAllNodes("Data.txt");
+        allNodes = Main_With_IO.getAllNodes("Data.txt");
+        System.out.println(allNodes.size() + "-----All nodes size"  );
         Main.getGraph();
         Main.V = allNodes.size();
         Main.setGraph(ConstructGraph.reconstructGraph(allNodes));
-         list = user.searching_Breadth(allNodes, name);
+         list  = user.searching_Breadth(allNodes, name);
 
         System.out.println(list.size() + "-----" + name);
-        System.out.println(list.size());
+        // System.out.println(list.size());
 
         int n = list.size();
         if (n < 4)
@@ -36,7 +37,7 @@ public class SearchWindow extends JFrame {
         centerPanel.setLayout(new GridLayout(n, 1, 30, 10));
          panels = new JPanel[list.size()];
          
-        MyActionListener alA = new MyActionListener(user);
+        MyActionListener alA = new MyActionListener(user,allNodes);
         for (int i = 0; i < panels.length; i++) {
             panels[i] = new JPanel();
             panels[i].setLayout(new GridLayout(1, 4));
@@ -68,6 +69,9 @@ public class SearchWindow extends JFrame {
                 JButton addBtn = new JButton("Add");
                 addBtn.setActionCommand(i+"Add");
                 addBtn.setPreferredSize(new Dimension(80, 30));
+                if(User.getUser(allNodes, user.getUsername()).getFriends().contains(list.get(i))){//Condition to check if they are already friends
+                    addBtn.setEnabled(false);
+                }
                 JPanel addBtnPanel = new JPanel();
                 addBtnPanel.add(addBtn);
                 addBtnPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
@@ -146,13 +150,14 @@ public class SearchWindow extends JFrame {
 
     class MyActionListener implements ActionListener {
         User user;
-
+        ArrayList<User> allNodes;
         MyActionListener() {
 
         }
 
-        MyActionListener(User u) {
+        MyActionListener(User u,  ArrayList<User> allNodes) {
             user = u;
+            this.allNodes=allNodes;
         }
 
         public void actionPerformed(ActionEvent e) {
@@ -173,7 +178,7 @@ public class SearchWindow extends JFrame {
                 for(int i =0 ; i<5 ; i++){
                     if(command.equals(i+"Add")){
                         try {
-                            user.sendReq(list, list.get(i).getUsername());
+                            user.sendReq(allNodes, list.get(i).getUsername());
                             System.out.println("Sent");
                         } catch (NullPointerException | IOException e1) {
                             // TODO Auto-generated catch block
