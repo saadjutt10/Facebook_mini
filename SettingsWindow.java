@@ -63,7 +63,7 @@ public class SettingsWindow extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 			if(e.getActionCommand()==("Home")) {
 				dispose();
-				new HomeWindow(null);
+				new HomeWindow(user);
 				}
 			if(e.getActionCommand()==("Name")) {
 			dispose();

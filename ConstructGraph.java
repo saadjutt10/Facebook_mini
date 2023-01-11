@@ -40,8 +40,8 @@ public class ConstructGraph implements Serializable {
         System.out.println(list.size());
         AllNodes = list;
         InitialisingGraph(graph);
-        System.out.println("Row :" + graph.size());
-        System.out.println("Col :" + graph.get(0).size());
+        // System.out.println("Row :" + graph.size());
+        // System.out.println("Col :" + graph.get(0).size());
         int NodeNum = -1; // Check which node is iterating and also used to create graph links
         for (User i : AllNodes) { // Logic to create the graph
             NodeNum++;

@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
 
-import javafx.scene.canvas.GraphicsContext;
+// import javafx.scene.canvas.GraphicsContext;
 
 public class User extends Person {
     ArrayList<User> friends = new ArrayList<>();
@@ -184,16 +184,16 @@ public class User extends Person {
             return false;
         }
 
-        System.out.println("Size of list is " + allNodes.size());
+        // System.out.println("Size of list is " + allNodes.size());
         Main_With_IO.writeData(allNodes, Main.fileName);// Updating data from file
 
         // ArrayList<ArrayList<Integer>> graph1 = new ArrayList<>(V);
         // ArrayList<User> tempList = Main_With_IO.getAllNodes(fileName);
         // allNodes = tempList;
         System.out.println("Friend added");
-        for (User i : allNodes) {
-            System.out.println(i.getUsername());
-        }
+        // for (User i : allNodes) {
+        //     System.out.println(i.getUsername());
+        // }
         ConstructGraph temp = new ConstructGraph(allNodes);
         ArrayList<ArrayList<Integer>> graph = temp.constGraph(allNodes, Main.fileName, this);
         Main.setGraph(graph);
@@ -251,8 +251,8 @@ public class User extends Person {
         ArrayList<User> senderList = this.getFriends();
         ArrayList<User> receiverList = receiver.getFriends();
 
-        System.out.println(this.getUsername() + " has " + senderList.size());
-        System.out.println(receiver.getUsername() + " has " + receiverList.size());
+        // System.out.println(this.getUsername() + " has " + senderList.size());
+        // System.out.println(receiver.getUsername() + " has " + receiverList.size());
         for (int i = 0; i < receiverList.size(); i++) {
             for (int j = 0; j < receiverList.size(); j++) {
                 if (receiverList.get(i).equals(senderList.get(j))) {
@@ -333,6 +333,7 @@ public class User extends Person {
             if (i.getSenderName().equals(sender.getUsername())) {
                 fr.remove(i);
                 addFriend(allNodes, i.getSenderName());
+                Main_With_IO.writeData(allNodes, Main.fileName);
                 return true;
             }
         }
@@ -450,10 +451,10 @@ public class User extends Person {
         return temp;
     }
 
-    public ArrayList<User> friendsOfFriends(ArrayList<User> list) throws IOException {
+    public static ArrayList<User> friendsOfFriends(ArrayList<User> list,User you) throws IOException {
         ArrayList<User> frnds = new ArrayList<>();
         boolean chklist[] = new boolean[list.size()];
-        int src = FindIndexInList(list, this);
+        int src = FindIndexInList(list, you);
         System.out.println("Index of usr is :"+src);
         chklist[src] = true;
         for (int j = 0; j < list.size(); j++) { // Loop to get all friends using graph and storing them in list

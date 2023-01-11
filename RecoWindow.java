@@ -19,6 +19,7 @@ public class RecoWindow extends JFrame {
         JPanel topTxtPanel = new JPanel();
         topTxtPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 30));
         JLabel topTxt = new JLabel("Select one of these two shits");
+        topTxt.setForeground(Color.white);
         topTxt.setFont(new Font("Arial", Font.PLAIN, 30));
         topTxtPanel.add(topTxt);
 
@@ -30,7 +31,7 @@ public class RecoWindow extends JFrame {
         JButton distanceBtn = new JButton("Recommend by distance");
         distanceBtn.setPreferredSize(new Dimension(200, 120));
         // Adding img on buttons
-        ImageIcon imgIcon = new ImageIcon("moaaz.jpg");
+        ImageIcon imgIcon = new ImageIcon("navigation.png");
         Image img = imgIcon.getImage();
         Image newImg = img.getScaledInstance(170, 170, java.awt.Image.SCALE_SMOOTH);
         distanceBtn.setIcon(new ImageIcon(newImg));
@@ -41,7 +42,7 @@ public class RecoWindow extends JFrame {
         JButton frnBtn = new JButton("Friends of Friends");
         frnBtn.setPreferredSize(new Dimension(200, 120));
         // Adding img on buttons
-        ImageIcon frnimg = new ImageIcon("moaaz.jpg");
+        ImageIcon frnimg = new ImageIcon("add-group.png");
         Image fimg = frnimg.getImage();
         Image newfimg = fimg.getScaledInstance(170, 170, java.awt.Image.SCALE_SMOOTH);
         frnBtn.setIcon(new ImageIcon(newfimg));
@@ -58,9 +59,9 @@ public class RecoWindow extends JFrame {
         homeBtn.setPreferredSize(new Dimension(80, 40));
         btnPanel.add(homeBtn);
         // Adding to main panel
-        topTxtPanel.setBackground(Color.red);
-        middlePanel.setBackground(Color.green);
-        btnPanel.setBackground(Color.yellow);
+        topTxtPanel.setBackground(Color.decode("#"+Main.DarkColor));
+        middlePanel.setBackground(Color.decode("#"+Main.DarkColor));
+        btnPanel.setBackground(Color.decode("#"+Main.notDarkColor));
         add(topTxtPanel, BorderLayout.NORTH);
         add(middlePanel, BorderLayout.CENTER);
         add(btnPanel, BorderLayout.SOUTH);
@@ -90,7 +91,7 @@ public class RecoWindow extends JFrame {
             if (e.getActionCommand() == "Home") {
                 dispose();
                 new HomeWindow(user);
-            } else if (e.getActionCommand() == "Recommend by distance") {
+            } else if (e.getActionCommand() == "Friends of Friends") {
                 try {
                     dispose();
                     new RecommendationWindow(user, "fof");
@@ -116,6 +117,9 @@ public class RecoWindow extends JFrame {
             }
 
         }
+    }
+    public static void main(String[] args) throws ClassNotFoundException, IOException {
+        new RecoWindow(Main_With_IO.getAllNodes("Data.txt").get(0));
     }
 
 }

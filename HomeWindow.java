@@ -19,6 +19,7 @@ public class HomeWindow extends JFrame {
         // setBackground("green");
         // setLayout(new GridLayout());
         setLayout(new GridLayout(2, 1));
+        setBackground((Color.decode("#" + Main.DarkColor)));
         // GridBagConstraints constraints = new GridBagConstraints();
 
         // Create the image
@@ -26,6 +27,7 @@ public class HomeWindow extends JFrame {
         // imageLabel.setIcon(new ImageIcon(user.getImageDir()));
         JPanel infoPanel = new JPanel();
         infoPanel.setLayout(new GridLayout(1, 4, 30, 60));
+        infoPanel.setBackground((Color.decode("#" + Main.DarkColor)));
         // UserPanel
 
         JLabel Userimg = new JLabel();
@@ -39,11 +41,15 @@ public class HomeWindow extends JFrame {
         Userimg.setIcon(new ImageIcon(newImg));
 
         JPanel info = new JPanel();
+        info.setBackground((Color.decode("#" + Main.DarkColor)));
         info.setLayout(new GridLayout(5, 1));
         JLabel uName = new JLabel("Name :" + user.getName() + " " + user.getLastName());
+        uName.setForeground(Color.white);
         JLabel uAge = new JLabel("Age :" + user.getAge());
+        uAge.setForeground(Color.white);
         JLabel uAdd = new JLabel(user.getAdd().getCity() + " Street :" + user.getAdd().getStreetNo()
                 + " House No :" + user.getAdd().getHouseNo());
+        uAdd.setForeground(Color.white);
         info.add(new JLabel(""));
         info.add(uName);
         info.add(uAge);
@@ -53,19 +59,21 @@ public class HomeWindow extends JFrame {
         // Panel to add function panel in center
         JPanel fCentre = new JPanel();
         fCentre.setLayout(new FlowLayout(FlowLayout.CENTER, 50, 50));
-        fCentre.setBackground(Color.BLUE);
+        fCentre.setBackground((Color.decode("#" + Main.notDarkColor)));
 
         // Function Panel
         JPanel functionJPanel = new JPanel();
         functionJPanel.setLayout(new GridLayout(1, 3, 50, 50));
-        functionJPanel.setBackground(Color.green);
+        functionJPanel.setBackground(Color.decode("#" + Main.notDarkColor));
 
         // Panel 1
         JPanel frndsPanel = new JPanel();
+        
+        frndsPanel.setBackground(Color.decode("#" + Main.notDarkColor));
         frndsPanel.setLayout(new BorderLayout());
         frndsPanel.setBackground(Color.yellow);
         JLabel frndsimg = new JLabel();
-        ImageIcon frndicon = new ImageIcon("moaaz.jpg");
+        ImageIcon frndicon = new ImageIcon("friendship.png");
         Image fimg = frndicon.getImage();
         Image frndNewimg = fimg.getScaledInstance(130, 130, java.awt.Image.SCALE_SMOOTH);
         frndsimg.setIcon(new ImageIcon(frndNewimg));
@@ -78,7 +86,7 @@ public class HomeWindow extends JFrame {
         JPanel recoPanel = new JPanel();
         recoPanel.setLayout(new BorderLayout());
         JLabel recimg = new JLabel();
-        ImageIcon recIcon = new ImageIcon("moaaz.jpg");
+        ImageIcon recIcon = new ImageIcon("rating.png");
         Image recoimg = recIcon.getImage();
         Image recNewimg = recoimg.getScaledInstance(130, 130, java.awt.Image.SCALE_SMOOTH);
         recimg.setIcon(new ImageIcon(recNewimg));
@@ -91,7 +99,7 @@ public class HomeWindow extends JFrame {
         JPanel searchPanel = new JPanel();
         searchPanel.setLayout(new BorderLayout());
         JLabel searchimg = new JLabel();
-        ImageIcon sicon = new ImageIcon("moaaz.jpg");
+        ImageIcon sicon = new ImageIcon("searchimg.png");
         Image simg = sicon.getImage();
         Image sNewimg = simg.getScaledInstance(130, 130, java.awt.Image.SCALE_SMOOTH);
         searchimg.setIcon(new ImageIcon(sNewimg));
@@ -111,15 +119,22 @@ public class HomeWindow extends JFrame {
         infoPanel.add(new JLabel(""));
         // Corner Panel
         JPanel cornerPanel = new JPanel();
+        
+        cornerPanel.setBackground(Color.decode("#" + Main.DarkColor));
         cornerPanel.setLayout(new GridLayout(4, 1, 50, 30));
         JButton logoutBtn = new JButton("Logout");
         logoutBtn.setPreferredSize(new Dimension(100, 30));
         JPanel logoutBtnPanel = new JPanel();
+        
+        logoutBtnPanel.setBackground(Color.decode("#" + Main.DarkColor));
         logoutBtnPanel.add(logoutBtn);
         logoutBtnPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
         JButton settingBtn = new JButton("Setting");
+        
         settingBtn.setPreferredSize(new Dimension(100, 30));
         JPanel settingBtnPanel = new JPanel();
+        
+        settingBtnPanel.setBackground(Color.decode("#" + Main.DarkColor));
         settingBtnPanel.add(settingBtn);
         settingBtnPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 
@@ -168,13 +183,13 @@ public class HomeWindow extends JFrame {
             } else if (e.getActionCommand() == "Search") {
                 dispose();
                 try {
-                    new SearchWindow(user,"");
+                    new SearchWindow(user, "");
                 } catch (ClassNotFoundException | IOException e1) {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
-            }else if(e.getActionCommand()=="Recommendations"){
-                
+            } else if (e.getActionCommand() == "Recommendations") {
+
                 dispose();
                 try {
                     new RecoWindow(user);
@@ -185,12 +200,13 @@ public class HomeWindow extends JFrame {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
-            }else if(e.getActionCommand()=="Setting"){
+            } else if (e.getActionCommand() == "Setting") {
                 dispose();
                 new SettingsWindow(user);
             }
         }
     }
+
     public static void main(String[] args) throws ClassNotFoundException, IOException {
         new HomeWindow(Main_With_IO.getAllNodes("Data.txt").get(3));
     }

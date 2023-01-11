@@ -6,7 +6,7 @@ public class Main implements Serializable {
 
     static String fileName = "Data.txt";
     static String DarkColor = "152A38";
-    static String notDarkColor = "F900BF";
+    static String notDarkColor = "205375";
     static int V = 0;// No of nodes in graph
     private static ArrayList<ArrayList<Integer>> graph;
 
@@ -71,7 +71,7 @@ public class Main implements Serializable {
         // Let's say the user trying to login is first from the list
         // User user1=allNodes.get(0);
         // user1.displayMatrix();
-        // reset();
+        reset();
         ArrayList<User> allNodes = Main_With_IO.getAllNodes(fileName);
 
         V = allNodes.size();
@@ -96,23 +96,23 @@ public class Main implements Serializable {
         // graph=Main_With_IO.removeNode(allNodes.get(allNodes.size()-1), allNodes);
         // allNodes.get(allNodes.size()-1).addFriend(allNodes, "huzaifa1");
         // System.out.println("File read successfully");
-        // allNodes.get(0).displayMatrix();
         // Main_With_IO.writeData(allNodes, fileName);
         ConstructGraph.displayMatrix();
 
         System.out.println("=======================");
+        ArrayList<User> reco=User.friendsOfFriends(allNodes,allNodes.get(3));
         // allNodes.get(0).block( allNodes.get(allNodes.size()-1),allNodes);
-        allNodes.get(0).unblock(allNodes.get(allNodes.size()-2), allNodes);
-        allNodes.get(0).unblock(allNodes.get(3), allNodes);
+        // allNodes.get(0).unblock(allNodes.get(allNodes.size()-2), allNodes);
+        // allNodes.get(0).unblock(allNodes.get(3), allNodes);
     //   allNodes.get(0).resetBlockedUsers(allNodes);
 
         // allNodes.get(0).block(allNodes.get(3),allNodes);
-        ArrayList<User> reco= allNodes.get(0).getBlockedUsers();
-        // System.out.println("=======================");
-        // System.out.println("Going dark");
-        // for (User i : reco) {
-        // System.out.println(i.getUsername());
-        // }
+        // ArrayList<User> reco= allNodes.get(0).getBlockedUsers();
+        System.out.println("=======================");
+        System.out.println("Going dark");
+        for (User i : reco) {
+        System.out.println(i.getUsername());
+        }
 
         // System.out.println("=======================");
         // allNodes.get(0).searching_Breadth(allNodes, "Bakr");

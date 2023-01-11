@@ -12,19 +12,22 @@ import javax.swing.*;
 public class SearchWindow extends JFrame {
     JTextField searchField;
     JPanel panels[];
-    ArrayList<User> allNodes ;ArrayList<User> list ;
+    ArrayList<User> allNodes;
+    ArrayList<User> list;
+
     SearchWindow(User user, String name) throws ClassNotFoundException, IOException {
         setSize(800, 500);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
         setTitle("Search");
         setLayout(new BorderLayout(0, 20));
+        setBackground(Color.decode("#" + Main.DarkColor));
         allNodes = Main_With_IO.getAllNodes("Data.txt");
-        System.out.println(allNodes.size() + "-----All nodes size"  );
+        System.out.println(allNodes.size() + "-----All nodes size");
         Main.getGraph();
         Main.V = allNodes.size();
         Main.setGraph(ConstructGraph.reconstructGraph(allNodes));
-         list  = user.searching_Breadth(allNodes, name);
+        list = user.searching_Breadth(allNodes, name);
 
         System.out.println(list.size() + "-----" + name);
         // System.out.println(list.size());
@@ -35,26 +38,33 @@ public class SearchWindow extends JFrame {
 
         JPanel centerPanel = new JPanel();
         centerPanel.setLayout(new GridLayout(n, 1, 30, 10));
-         panels = new JPanel[list.size()];
-         
-        MyActionListener alA = new MyActionListener(user,allNodes,list);
+        panels = new JPanel[list.size()];
+
+        MyActionListener alA = new MyActionListener(user, allNodes, list);
         for (int i = 0; i < panels.length; i++) {
             panels[i] = new JPanel();
             panels[i].setLayout(new GridLayout(1, 4));
+
+            panels[i].setBackground(Color.decode("#" + Main.DarkColor));
             // panels[i].setBackground(Color.red);
             JLabel searchimg = new JLabel();
+
             ImageIcon sicon = new ImageIcon(list.get(i).getImageDir());
             Image simg = sicon.getImage();
             Image sNewimg = simg.getScaledInstance(150, 150, java.awt.Image.SCALE_SMOOTH);
             searchimg.setIcon(new ImageIcon(sNewimg));
             panels[i].add(searchimg);
             JPanel info = new JPanel();
+            info.setBackground(Color.decode("#" + Main.DarkColor));
             {
                 info.setLayout(new GridLayout(5, 1));
                 JLabel uName = new JLabel("Name :" + list.get(i).getName() + " " + list.get(i).getLastName());
+                uName.setForeground(Color.white);
                 JLabel uAge = new JLabel("Age :" + list.get(i).getAge());
+                uAge.setForeground(Color.white);
                 ArrayList<User> mutuaList = user.getMutualFriendsList(allNodes, list.get(i));
                 JLabel uMutualNum = new JLabel("Mutual Friends :" + mutuaList.size());
+                uMutualNum.setForeground(Color.white);
                 info.add(new JLabel(""));
                 info.add(uName);
                 info.add(uAge);
@@ -64,19 +74,29 @@ public class SearchWindow extends JFrame {
             panels[i].add(info);
             panels[i].add(new JLabel(""));
             JPanel cornerPanel = new JPanel();
+
+            cornerPanel.setBackground(Color.decode("#" + Main.DarkColor));
             {// Buttons
                 cornerPanel.setLayout(new GridLayout(2, 1, 50, 0));
                 JButton addBtn = new JButton("Add");
-                addBtn.setActionCommand(i+"Add");
+                addBtn.setForeground(Color.white);
+                addBtn.setBackground(Color.decode("#" + Main.DarkColor));
+                addBtn.setActionCommand(i + "Add");
                 addBtn.setPreferredSize(new Dimension(80, 30));
-                if(User.getUser(allNodes, user.getUsername()).getFriends().contains(list.get(i))){//Condition to check if they are already friends
-                    addBtn.setEnabled(false);
+                ArrayList<User> tuser = User.getUser(allNodes, user.getUsername()).getFriends();
+                if (tuser.size() >= 1) {
+                    if (tuser.contains(list.get(i))) {// Condition to check if they are already friends
+                        addBtn.setEnabled(false);
+                    }
                 }
+
                 JPanel addBtnPanel = new JPanel();
                 addBtnPanel.add(addBtn);
                 addBtnPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
                 JButton settingBtn = new JButton("Block");
-                settingBtn.setActionCommand(i+"Block");
+                settingBtn.setForeground(Color.white);
+                settingBtn.setBackground(Color.decode("#" + Main.DarkColor));
+                settingBtn.setActionCommand(i + "Block");
                 settingBtn.setPreferredSize(new Dimension(80, 30));
                 JPanel settingBtnPanel = new JPanel();
                 settingBtnPanel.add(settingBtn);
@@ -86,7 +106,7 @@ public class SearchWindow extends JFrame {
                 cornerPanel.add(addBtnPanel);
                 cornerPanel.add(settingBtnPanel);
                 // cornerPanel.add(new JLabel(""));
-                //Adding actionListener
+                // Adding actionListener
                 addBtn.addActionListener(alA);
                 settingBtn.addActionListener(alA);
             }
@@ -150,14 +170,15 @@ public class SearchWindow extends JFrame {
         User user;
         ArrayList<User> allNodes;
         ArrayList<User> list;
+
         MyActionListener() {
 
         }
 
-        MyActionListener(User u,  ArrayList<User> allNodes,ArrayList<User> lis) {
+        MyActionListener(User u, ArrayList<User> allNodes, ArrayList<User> lis) {
             user = u;
-            this.allNodes=allNodes;
-            list=lis;
+            this.allNodes = allNodes;
+            list = lis;
         }
 
         public void actionPerformed(ActionEvent e) {
@@ -172,11 +193,11 @@ public class SearchWindow extends JFrame {
             } else if (e.getActionCommand() == "Home") {
                 dispose();
                 new HomeWindow(user);
-            } else{
-                String command=e.getActionCommand();
+            } else {
+                String command = e.getActionCommand();
                 System.out.println(command);
-                for(int i =0 ; i<5 ; i++){
-                    if(command.equals(i+"Add")){
+                for (int i = 0; i < 5; i++) {
+                    if (command.equals(i + "Add")) {
                         try {
                             user.sendReq(allNodes, list.get(i).getUsername());
                             System.out.println("Sent");
@@ -184,9 +205,9 @@ public class SearchWindow extends JFrame {
                             // TODO Auto-generated catch block
                             e1.printStackTrace();
                         }
-                    }else if(command.equals(i+"Block")){
+                    } else if (command.equals(i + "Block")) {
                         try {
-                            user.block(list.get(i),allNodes);
+                            user.block(list.get(i), allNodes);
                         } catch (IOException e1) {
                             // TODO Auto-generated catch block
                             e1.printStackTrace();
@@ -194,7 +215,7 @@ public class SearchWindow extends JFrame {
                         System.out.println("Blocked");
                     }
                 }
-            } 
+            }
         }
     }
 
