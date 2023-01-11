@@ -72,11 +72,13 @@ public class Main implements Serializable {
         // User user1=allNodes.get(0);
         // user1.displayMatrix();
         // reset();
-        ArrayList<User> allNodes = Main_With_IO.getAllNodes(fileName);
+        // ArrayList<User> allNodes = Main_With_IO.getAllNodes(fileName);
 
-        V = allNodes.size();
-        graph = new ArrayList<>(V);
-        graph = ConstructGraph.reconstructGraph(allNodes);
+        new Login();
+
+        // V = allNodes.size();
+        // graph = new ArrayList<>(V);
+        // graph = ConstructGraph.reconstructGraph(allNodes);
         // ConstructGraph.displayMatrix();
         // Adding new node
         // Address ad5 = new Address("Multan", 22, 10);
@@ -97,15 +99,15 @@ public class Main implements Serializable {
         // allNodes.get(allNodes.size()-1).addFriend(allNodes, "huzaifa1");
         // System.out.println("File read successfully");
         // Main_With_IO.writeData(allNodes, fileName);
-        ConstructGraph.displayMatrix();
-        allNodes.get(0).setImageDir("moaaz.jpg");
-        allNodes.get(1).setImageDir("ali.jpg");
-        allNodes.get(2).setImageDir("ammar.png");
-        allNodes.get(3).setImageDir("huzaifa.jpg");
-        allNodes.get(4).setImageDir("bakr.jpg");
+        // ConstructGraph.displayMatrix();
+        // allNodes.get(0).setImageDir("moaaz.jpg");
+        // allNodes.get(1).setImageDir("ali.jpg");
+        // allNodes.get(2).setImageDir("ammar.png");
+        // allNodes.get(3).setImageDir("huzaifa.jpg");
+        // allNodes.get(4).setImageDir("bakr.jpg");
         
-        Main_With_IO.writeData(allNodes, fileName);
-        System.out.println("=======================");
+        // Main_With_IO.writeData(allNodes, fileName);
+        // System.out.println("=======================");
         // ArrayList<User> reco=User.friendsOfFriends(allNodes,allNodes.get(3));
         // allNodes.get(0).block( allNodes.get(allNodes.size()-1),allNodes);
         // allNodes.get(0).unblock(allNodes.get(allNodes.size()-2), allNodes);
