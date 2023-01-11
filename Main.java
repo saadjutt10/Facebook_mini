@@ -71,7 +71,7 @@ public class Main implements Serializable {
         // Let's say the user trying to login is first from the list
         // User user1=allNodes.get(0);
         // user1.displayMatrix();
-        reset();
+        // reset();
         ArrayList<User> allNodes = Main_With_IO.getAllNodes(fileName);
 
         V = allNodes.size();
@@ -98,9 +98,15 @@ public class Main implements Serializable {
         // System.out.println("File read successfully");
         // Main_With_IO.writeData(allNodes, fileName);
         ConstructGraph.displayMatrix();
-
+        allNodes.get(0).setImageDir("moaaz.jpg");
+        allNodes.get(1).setImageDir("ali.jpg");
+        allNodes.get(2).setImageDir("ammar.png");
+        allNodes.get(3).setImageDir("huzaifa.jpg");
+        allNodes.get(4).setImageDir("bakr.jpg");
+        
+        Main_With_IO.writeData(allNodes, fileName);
         System.out.println("=======================");
-        ArrayList<User> reco=User.friendsOfFriends(allNodes,allNodes.get(3));
+        // ArrayList<User> reco=User.friendsOfFriends(allNodes,allNodes.get(3));
         // allNodes.get(0).block( allNodes.get(allNodes.size()-1),allNodes);
         // allNodes.get(0).unblock(allNodes.get(allNodes.size()-2), allNodes);
         // allNodes.get(0).unblock(allNodes.get(3), allNodes);
@@ -108,21 +114,21 @@ public class Main implements Serializable {
 
         // allNodes.get(0).block(allNodes.get(3),allNodes);
         // ArrayList<User> reco= allNodes.get(0).getBlockedUsers();
-        System.out.println("=======================");
-        System.out.println("Going dark");
-        for (User i : reco) {
-        System.out.println(i.getUsername());
-        }
+        // System.out.println("=======================");
+        // System.out.println("Going dark");
+        // for (User i : reco) {
+        // System.out.println(i.getUsername());
+        // }
 
         // System.out.println("=======================");
         // allNodes.get(0).searching_Breadth(allNodes, "Bakr");
         // allNodes.get(0).unblock(allNodes.get(3),allNodes);
         // reco= allNodes.get(0).distanceSuggestions(allNodes);
         // System.out.println("=======================");
-        System.out.println("Going dark");
-        for (User i : reco) {
-        System.out.println(i.getUsername());
-        }
+        // System.out.println("Going dark");
+        // for (User i : reco) {
+        // System.out.println(i.getUsername());
+        // }
 
         // User login=new User(allNodes, fileName, 0, fileName, fileName, fileName,
         // fileName, null);

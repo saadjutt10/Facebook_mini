@@ -14,7 +14,7 @@ public class HomeWindow extends JFrame {
         setSize(800, 500);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
-        setTitle("Login Iterface");
+        setTitle("Home");
         // setBackground("yellow");
         // setBackground("green");
         // setLayout(new GridLayout());
@@ -33,7 +33,7 @@ public class HomeWindow extends JFrame {
         JLabel Userimg = new JLabel();
 
         // Create an ImageIcon from a file
-        ImageIcon imgIcon = new ImageIcon("moaaz.jpg");
+        ImageIcon imgIcon = new ImageIcon(user.getImageDir());
         Image img = imgIcon.getImage();
 
         // Create a new ImageIcon with a different size
