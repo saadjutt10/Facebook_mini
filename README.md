@@ -1,7 +1,10 @@
-# FriendsRecommendation
-Java based DSA project
-which uses adjacenecy matrix to create graph( expandable and contractable).
-Run time connections bt diffrent Users(Nodes) can be modified.
-Each Node is and Object and has different attributes like list of friends(Connection with other nodes) and name , age etc.
-File IO is used to store the relation bt nodes in file, which can be used later to create graph, the next time you run the program without having to enter or create links.
+# Social Network based on Graphs
+Java based DSA project(GUI) with FileHandling, which uses the concepts of graphs, queues and stack.
+Graph is run time modifiedable:
+  Changes the links when one User(node) becomes friend with other User(node)
+  Changes the dimensions when a new User(node) is created
+Uses graphs basic methods of Breadth search to find user(Nodes) in system.
+Suggest User(node) to create link with other nodes:
+  Distance based suggestion
+  FriendsOfFriends suggestion
 
