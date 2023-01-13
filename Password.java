@@ -80,7 +80,7 @@ public class Password extends JFrame {
 		User user;
 
 		MyActionListener(User user) {
-			user = user;
+			this.user = user;
 		}
 
 		@Override
@@ -89,33 +89,28 @@ public class Password extends JFrame {
 				ArrayList<User> list;
 				try {
 					list = Main_With_IO.getAllNodes("Data.txt");
-
-					for (User i : list) {
-						if (i.equals(user)) {
-							if(UNF.getText().equals(user.getUsername())){
-								if(oldpass.getText().equals(user.getPassword())){
-									if(newpass.getText().equals(conPass.getText())){
-										user.setPassword(newpass.getText());
-										JOptionPane.showMessageDialog(null, "Password is changed.");
-										i.setPassword(newpass.getText());
-										user=i;
-										dispose();
-										new HomeWindow(user);
-									}else{
-										newpass.setText("");
-										conPass.setText("");
-									}
-								}else{
-									oldpass.setText("Incorrect Password");
-								}
+					int ind = User.FindIndexInList(list, user);
+					if (UNF.getText().equals(user.getUsername())) {
+						if (oldpass.getText().equals(user.getPassword())) {
+							if (newpass.getText().equals(conPass.getText())) {
+								list.get(ind).setPassword(newpass.getText());
+								JOptionPane.showMessageDialog(null, "Password is changed.");
+								Main_With_IO.writeData(list, "Data.txt");
+								dispose();
+								new HomeWindow(list.get(ind));
+							} else {
+								newpass.setText("");
+								conPass.setText("");
+								UNF.setText("Plz type same in both pass fields");
 							}
-							else{
-								UNF.setText("Incorrect User Name");
-							}
+						} else {
+							oldpass.setText("");
+							UNF.setText("Incorrect Password");
 						}
+					} else {
+						UNF.setText("Incorrect User Name");
+
 					}
-					Main_With_IO.writeData(list, "Data.txt");
-					dispose();
 				} catch (ClassNotFoundException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -123,7 +118,6 @@ public class Password extends JFrame {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				new HomeWindow(user);
 			}
 			if (e.getActionCommand() == ("BACK")) {
 				dispose();

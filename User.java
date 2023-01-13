@@ -126,10 +126,16 @@ public class User extends Person {
         this.interest.remove(newint);
     }
 
-    public void block(User temp,ArrayList<User> allNodes) throws IOException {
-        for(User i : allNodes ){
-            if(i.equals(this)){
+    public void block(User temp, ArrayList<User> allNodes) throws IOException {
+        for (User i : allNodes) {
+            if (i.equals(this)) {
+                System.out.println("Found");
+                if( i.getBlockedUsers().contains(temp)){
+                    System.out.println("Already existes");
+                    break;
+                }
                 i.getBlockedUsers().add(temp);
+                i.removeFriend(allNodes, temp.getUsername());
                 System.out.println(temp.getUsername());
                 break;
             }
@@ -137,14 +143,15 @@ public class User extends Person {
         Main_With_IO.writeData(allNodes, Main.fileName);
     }
 
-    public void unblock(User temp,ArrayList<User> allNodes) throws IOException {
-        for(User i : allNodes ){
-            if(i.equals(this)){
+    public void unblock(User temp, ArrayList<User> allNodes) throws IOException {
+        for (User i : allNodes) {
+            if (i.getUsername().equals(this.getUsername())) {
                 i.getBlockedUsers().remove(temp);
+                Main_With_IO.writeData(allNodes, Main.fileName);
+                System.out.println("Done removed "+temp.getUsername());
                 break;
             }
         }
-        Main_With_IO.writeData(allNodes, Main.fileName);
     }
 
     public boolean isBlocked(User temp) {
@@ -192,7 +199,7 @@ public class User extends Person {
         // allNodes = tempList;
         System.out.println("Friend added");
         // for (User i : allNodes) {
-        //     System.out.println(i.getUsername());
+        // System.out.println(i.getUsername());
         // }
         ConstructGraph temp = new ConstructGraph(allNodes);
         ArrayList<ArrayList<Integer>> graph = temp.constGraph(allNodes, Main.fileName, this);
@@ -272,26 +279,34 @@ public class User extends Person {
         ArrayList<User> list = new ArrayList<>();
         int src = FindIndexInList(list, this);
         int rec = FindIndexInList(list, receiver);
-        ArrayList<User> senderList = new ArrayList<>();
-        ArrayList<User> receiverList = new ArrayList<>();
+        ArrayList<User> senderList = this.getFriends();
+        ArrayList<User> receiverList = receiver.getFriends();
 
-        for (int j = 0; j < receiverList.size(); j++) { // Making a list of all friends of two users
-            if (Main.getGraph().get(src).get(j) == 1) {
-                senderList.add(allNodes.get(j));
-            }
-        }
-        for (int j = 0; j < receiverList.size(); j++) {
-            if (Main.getGraph().get(rec).get(j) == 1) {
-                receiverList.add(allNodes.get(j));
-            }
-        }
-        // System.out.println(this.getUsername() + " has " + senderList.size());
-        // System.out.println(receiver.getUsername() + " has " + receiverList.size());
+        /*
+         * for (int j = 0; j < allNodes.size(); j++) { // Making a list of all friends
+         * of two users
+         * if (Main.getGraph().get(src).get(j) == 1) {
+         * senderList.add(allNodes.get(j));
+         * }
+         * }
+         */
+
+        /*
+         * for (int j = 0; j < allNodes.size(); j++) {
+         * if (Main.getGraph().get(rec).get(j) == 1) {
+         * receiverList.add(allNodes.get(j));
+         * }
+         * }
+         */
+
+        System.out.println(this.getUsername() + " has " + senderList.size());
+        System.out.println(receiver.getUsername() + " has " + receiverList.size());
 
         for (int i = 0; i < receiverList.size(); i++) {
-            for (int j = 0; j < receiverList.size(); j++) {
+            for (int j = 0; j < senderList.size(); j++) {
                 if (receiverList.get(i).equals(senderList.get(j))) {
                     list.add(receiverList.get(i));
+
                 }
             }
         }
@@ -370,9 +385,9 @@ public class User extends Person {
 
     //////////// **************Graph Algos and suggestions******************* */
 
-    public static int FindIndexInList(ArrayList<User> list, User name) {
+    public static int FindIndexInList(ArrayList<User> list, User name) throws NullPointerException {
         for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).equals(name))
+            if (list.get(i).getUsername().equals(name.getUsername()))
                 return i;
         }
         return 0;
@@ -380,63 +395,80 @@ public class User extends Person {
 
     public ArrayList<User> searching_Breadth(ArrayList<User> list, String name) {
         ArrayList<User> temp_list = new ArrayList<>();
-        Queue<User> que = new LinkedList<>();
-        Stack<User> stk = new Stack<>();
-        boolean checkList[] = new boolean[list.size()];
-        int source = FindIndexInList(list, this);
-        checkList[source] = true; // Making source visited
-        int count = 1;// Variable to keep track of number of friends at lvl order
-        que.add(this);
-        while (!que.isEmpty()) {
-            for (int j = 0; j < count; j++) {// Loop to indicate the number of times the inner loop needs to be executed
-                count = 0; // to cover one lvl nodes
-                User temp = que.poll();
-                int position = FindIndexInList(list, temp);
-                for (int i = 0; i < list.size(); i++) { // one for each row
-                    if (position != i)
-                        if (Main.getGraph().get(position).get(i) != 0) {
-                            // cout << i << " :Outer true \n";
-                            if (checkList[i] == false) // If already Visited just continue
-                            {
-                                checkList[i] = true; // Before pushing the element in queue change its visited check to
-                                                     // true
-                                que.add(list.get(i));
-                                if (list.get(i).getName().equals(name)) {
-                                    if (!isBlocked(list.get(i))) {
-                                        stk.push(list.get(i));
-                                    }
-                                }
-                                count++;
-                            }
-                        }
-                }
-            }
-            if (count == 0) { // Incase there is no such friend of your friend that is not visited yet
-                count = 1;
-            }
-            stk.push(null); // Pusing null each time one lvl
-                            // is finished
-        }
-        System.out.println(stk.size());
-        // int nullCount=0;
-        for (User i : stk) {
-            if (i!=null) {
-                if (i.getUsername().equals("null")) {
-                    System.out.println();
-                } else {
-                    System.out.println(i.getUsername());
+        for (User i : list) {
+            if (i.getName().equals(name)) {
+                if(!this.getBlockedUsers().contains(User.getUser(list, name))){
                     temp_list.add(i);
                 }
             }
         }
-
         return temp_list;
     }
+    /*
+     * public ArrayList<User> searching_Breadth(ArrayList<User> list, String name) {
+     * ArrayList<User> temp_list = new ArrayList<>();
+     * Queue<User> que = new LinkedList<>();
+     * Stack<User> stk = new Stack<>();
+     * boolean checkList[] = new boolean[list.size()];
+     * int source = FindIndexInList(list, this);
+     * checkList[source] = true; // Making source visited
+     * int count = 1;// Variable to keep track of number of friends at lvl order
+     * que.add(this);
+     * while (!que.isEmpty()) {
+     * count = 1; // to cover one lvl nodes
+     * for (int j = 0; j < count; j++) {// Loop to indicate the number of times the
+     * inner loop needs to be executed
+     * 
+     * User temp = que.poll();
+     * int position = FindIndexInList(list, temp);
+     * for (int i = 0; i < list.size(); i++) { // one for each row
+     * if (position != i)
+     * if (Main.getGraph().get(position).get(i) != 0) {
+     * // cout << i << " :Outer true \n";
+     * if (checkList[i] == false) // If already Visited just continue
+     * {
+     * checkList[i] = true; // Before pushing the element in queue change its
+     * visited check to
+     * // true
+     * que.add(list.get(i));
+     * if (list.get(i).getName().equals(name)) {
+     * if (!isBlocked(list.get(i))) {
+     * stk.push(list.get(i));
+     * }
+     * }
+     * count++;
+     * }
+     * }
+     * }
+     * }
+     * if (count == 0) { // Incase there is no such friend of your friend that is
+     * not visited yet
+     * count = 1;
+     * }
+     * stk.push(null); // Pusing null each time one lvl
+     * // is finished
+     * }
+     * System.out.println(stk.size());
+     * // int nullCount=0;
+     * for (User i : stk) {
+     * if (i != null) {
+     * if (i.getUsername().equals("null")) {
+     * System.out.println();
+     * } else {
+     * System.out.println(i.getUsername());
+     * temp_list.add(i);
+     * }
+     * }
+     * }
+     * 
+     * return temp_list;
+     * }
+     */
 
     public ArrayList<User> distanceSuggestions(ArrayList<User> list) throws IOException {
         ArrayList<User> temp = new ArrayList<>();// Taking for 1000km
         for (int i = 0; i < list.size(); i++) {
-            if(i!=FindIndexInList(list, this)){
+            if (i != FindIndexInList(list, this)) {
                 User user = list.get(i);
                 String city = user.getAdd().getCity();
                 String city2 = this.getAdd().getCity();
@@ -447,50 +479,98 @@ public class User extends Person {
                     }
                 }
             }
-            }
-           
+        }
+
         return temp;
     }
 
-    public static ArrayList<User> friendsOfFriends(ArrayList<User> list,User you) throws IOException {
-        ArrayList<User> frnds = new ArrayList<>();
-        boolean chklist[] = new boolean[list.size()];
+    public static ArrayList<User> friendsOfFriends(ArrayList<User> list, User you) throws IOException {
+        ArrayList<User> frnds = you.getFriends();
         int src = FindIndexInList(list, you);
-        System.out.println("Index of usr is :"+src);
-        chklist[src] = true;
-        for (int j = 0; j < list.size(); j++) { // Loop to get all friends using graph and storing them in list
-            if (Main.getGraph().get(src).get(j) == 1) {
-                frnds.add(list.get(j));
-                chklist[j] = true;
-            }
-        }
 
-        ArrayList<User> temp = new ArrayList<>();
-        ArrayList<User> frndList=new ArrayList<>();
-        for (int i = 0; i < frnds.size(); i++) { // To iterate all frnds of source
-            // ArrayList<User> frndList = temp.get(i).getFriends();
-            int indexOfFriend = FindIndexInList(list, frnds.get(i));// Getting the index of current frnd node w.r.t
-                                                                    // allNodes(list)
-            for (int fof = 0; fof < list.size(); fof++) {// Loop to get all friends of you friends
-                if (Main.getGraph().get(indexOfFriend).get(fof) == 1) {
-                    System.out.println("Adding in temp :" + list.get(fof).getUsername());
-                    frndList.add(list.get(fof));
-                }
-            }
-            for (int j = 0; j < frndList.size(); j++) {// To iterate all friends of source's friend
-                int index = FindIndexInList(list, frndList.get(j));// Getting the index w.r.t allNodes
-                if (chklist[index] == false) {// Checking if the node is already visited or not
-                    chklist[index] = true;
-                    // if (!isBlocked(frndList.get(j))) {// If the user is not blocked then add in list
-                        System.out.println("Adding :" + frndList.get(j).getUsername());
-                        temp.add(frndList.get(j));
-                    // }
+        ArrayList<User> temo = new ArrayList<>();
+        for (int i = 0; i < frnds.size(); i++) {
+            ArrayList<User> temp = frnds.get(i).getFriends();
+            for (int j = 0; j < temp.size(); j++) {
+                if (!temo.contains(temp.get(j))) {
+                    temo.add(temp.get(j));
                 }
             }
         }
-
-        return temp;
+        for(int i =0 ;i< frnds.size(); i++){
+            temo.remove(frnds.get(i));
+        }
+        temo.remove(you);
+        return temo;
     }
+    // public static ArrayList<User> friendsOfFriends(ArrayList<User> list, User
+    // you) throws IOException {
+    // ArrayList<User> frnds = you.getFriends();
+    // boolean chklist[] = new boolean[list.size()];
+    // int src = FindIndexInList(list, you);
+    // // System.out.println("Index of usr is :"+src);
+    // chklist[src] = true;
+    // /*
+    // * for (int j = 0; j < list.size(); j++) { // Using Graphs
+    // * if (Main.getGraph().get(src).get(j) == 1) {
+    // * frnds.add(list.get(j));
+    // * chklist[j] = true;
+    // * }
+    // * }
+    // */
+    // for (int j = 0; j < frnds.size(); j++) {
+    // int ind = FindIndexInList(frnds, frnds.get(j));
+    // chklist[ind] = true;
+    // }
+    // // ArrayList<User> frndList =new ArrayList<>();
+    // ArrayList<User> temp = new ArrayList<>();
+    // for (int i = 0; i < frnds.size(); i++) { // To iterate all frnds of source
+    // // ArrayList<User> frndList = temp.get(i).getFriends();
+    // // int indexOfFriend = FindIndexInList(list, frnds.get(i));// Getting the
+    // index
+    // // of current frnd node w.r.t
+    // // allNodes(list)
+    // /*
+    // * for (int fof = 0; fof < list.size(); fof++) {// Loop to get all friends of
+    // * you friends
+    // * if (Main.getGraph().get(indexOfFriend).get(fof) == 1) {
+    // * System.out.println("Adding in temp :" + list.get(fof).getUsername());
+    // * frndList.add(list.get(fof));
+    // * }
+    // * }
+    // */
+
+    // ArrayList<User> frndList = frnds.get(i).getFriends();
+    // for (int j = 0; j < frndList.size(); j++) {// To iterate all friends of
+    // source's friend
+    // for (int k = 0; k < temp.size(); k++) {
+    // if (temp.get(k).equals(frndList.get(j))) {
+
+    // temp.remove(frndList.get(j));
+    // break;
+    // }
+    // }
+    // temp.add(frndList.get(j));
+    // // int index = FindIndexInList(list, frndList.get(j));// Getting the index
+    // w.r.t
+    // // allNodes
+    // /*
+    // * if (chklist[index] == false) {// Checking if the node is already visited or
+    // * not
+    // * chklist[index] = true;
+    // * // if (!isBlocked(frndList.get(j))) {// If the user is not blocked then add
+    // * in
+    // * // list
+    // * System.out.println("Adding :" + frndList.get(j).getUsername());
+    // * temp.add(frndList.get(j));
+    // * // }
+    // * }
+    // */
+    // }
+    // }
+    // temp.remove(you);
+    // return temp;
+    // }
 
     @Override
     public String toString() {

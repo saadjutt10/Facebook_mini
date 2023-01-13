@@ -155,9 +155,8 @@ public class HomeWindow extends JFrame {
         add(infoPanel);
         add(fCentre);
         // *******************Adding Action Listners */
-        MyActionListener al = new MyActionListener();
         MyActionListener alA = new MyActionListener(user);
-        logoutBtn.addActionListener(al);
+        logoutBtn.addActionListener(alA);
         settingBtn.addActionListener(alA);
         searchBtn.addActionListener(alA);
         recBtn.addActionListener(alA);
@@ -167,10 +166,6 @@ public class HomeWindow extends JFrame {
 
     class MyActionListener implements ActionListener {
         User user;
-
-        MyActionListener() {
-
-        }
 
         MyActionListener(User u) {
             user = u;
@@ -203,11 +198,22 @@ public class HomeWindow extends JFrame {
             } else if (e.getActionCommand() == "Setting") {
                 dispose();
                 new SettingsWindow(user);
+            } else if (e.getActionCommand() == "Friends") {
+                try {
+                    dispose();
+                    new FriendsFrame(user);
+                } catch (ClassNotFoundException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                } catch (IOException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
             }
         }
     }
 
     public static void main(String[] args) throws ClassNotFoundException, IOException {
-        new HomeWindow(Main_With_IO.getAllNodes("Data.txt").get(3));
+        new HomeWindow(Main_With_IO.getAllNodes("Data.txt").get(0));
     }
 }

@@ -22,6 +22,7 @@ public class SearchWindow extends JFrame {
         setTitle("Search");
         setLayout(new BorderLayout(0, 20));
         setBackground(Color.decode("#" + Main.DarkColor));
+        // setResizable(false);
         allNodes = Main_With_IO.getAllNodes("Data.txt");
         System.out.println(allNodes.size() + "-----All nodes size");
         Main.getGraph();
@@ -35,8 +36,12 @@ public class SearchWindow extends JFrame {
         int n = list.size();
         if (n < 4)
             n = 4;
-
-        JPanel centerPanel = new JPanel();
+            JPanel centerPanel = new JPanel();
+            JScrollPane scrollPane = new JScrollPane(centerPanel);
+            // scrollPane.setForeground(Color.decode("#"+Main.DarkColor));
+            // centerPanel.setBackground(Color.decode("#"+Main.DarkColor));
+            scrollPane.setPreferredSize(new Dimension(700, 400));
+        
         centerPanel.setLayout(new GridLayout(n, 1, 30, 10));
         panels = new JPanel[list.size()];
 
@@ -51,7 +56,7 @@ public class SearchWindow extends JFrame {
 
             ImageIcon sicon = new ImageIcon(list.get(i).getImageDir());
             Image simg = sicon.getImage();
-            Image sNewimg = simg.getScaledInstance(150, 150, java.awt.Image.SCALE_SMOOTH);
+            Image sNewimg = simg.getScaledInstance(130, 100, java.awt.Image.SCALE_SMOOTH);
             searchimg.setIcon(new ImageIcon(sNewimg));
             panels[i].add(searchimg);
             JPanel info = new JPanel();
@@ -77,10 +82,10 @@ public class SearchWindow extends JFrame {
 
             cornerPanel.setBackground(Color.decode("#" + Main.DarkColor));
             {// Buttons
-                cornerPanel.setLayout(new GridLayout(2, 1, 50, 0));
+                cornerPanel.setLayout(new GridLayout(2, 1, 50, 10));
                 JButton addBtn = new JButton("Add");
                 addBtn.setForeground(Color.white);
-                addBtn.setBackground(Color.decode("#" + Main.DarkColor));
+                addBtn.setBackground(Color.decode("#" + Main.notDarkColor));
                 addBtn.setActionCommand(i + "Add");
                 addBtn.setPreferredSize(new Dimension(80, 30));
                 ArrayList<User> tuser = User.getUser(allNodes, user.getUsername()).getFriends();
@@ -91,16 +96,19 @@ public class SearchWindow extends JFrame {
                 }
 
                 JPanel addBtnPanel = new JPanel();
+                addBtnPanel.setBackground(Color.decode("#" + Main.DarkColor));
                 addBtnPanel.add(addBtn);
                 addBtnPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
                 JButton settingBtn = new JButton("Block");
                 settingBtn.setForeground(Color.white);
-                settingBtn.setBackground(Color.decode("#" + Main.DarkColor));
+                settingBtn.setBackground(Color.decode("#" + Main.notDarkColor));
                 settingBtn.setActionCommand(i + "Block");
                 settingBtn.setPreferredSize(new Dimension(80, 30));
+                
                 JPanel settingBtnPanel = new JPanel();
                 settingBtnPanel.add(settingBtn);
                 settingBtnPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+                settingBtnPanel.setBackground(Color.decode("#" + Main.DarkColor));
 
                 // cornerPanel.add(new JLabel(""));
                 cornerPanel.add(addBtnPanel);
@@ -157,14 +165,19 @@ public class SearchWindow extends JFrame {
         homeBtn.setPreferredSize(new Dimension(80, 40));
         btnPanel.add(homeBtn);
         // Adding in Main frame
+        centerPanel.setAutoscrolls(true);
         add(topPanel, BorderLayout.NORTH);
-        add(centerPanel, BorderLayout.CENTER);
+        add(scrollPane, BorderLayout.CENTER);
         add(btnPanel, BorderLayout.SOUTH);
         //Printing Graph
         ConstructGraph.displayMatrix();
         // Action Listeners
         searchButton.addActionListener(alA);
         homeBtn.addActionListener(alA);
+        //Design
+        topPanel.setBackground(Color.decode("#"+Main.DarkColor));
+        btnPanel.setBackground(Color.decode("#"+Main.DarkColor));
+      
     }
 
     class MyActionListener implements ActionListener {
@@ -200,20 +213,36 @@ public class SearchWindow extends JFrame {
                 for (int i = 0; i < 5; i++) {
                     if (command.equals(i + "Add")) {
                         try {
-                            user.addFriend(allNodes, list.get(i).getUsername());
+                            allNodes = Main_With_IO.getAllNodes("Data.txt");
+                            int ind = User.FindIndexInList(allNodes, user);
+                            int index2 = User.FindIndexInList(allNodes, list.get(i));
+                            allNodes.get(ind).addFriend(allNodes, allNodes.get(index2).getUsername());
+                            JOptionPane.showMessageDialog(null, "User is added as friend");
+                            dispose();
+                            new SearchWindow(allNodes.get(ind),"");
                             
                         } catch (NullPointerException | IOException e1) {
+                            // TODO Auto-generated catch block
+                            e1.printStackTrace();
+                        } catch (ClassNotFoundException e1) {
                             // TODO Auto-generated catch block
                             e1.printStackTrace();
                         }
                     } else if (command.equals(i + "Block")) {
                         try {
-                            user.block(list.get(i), allNodes);
+                            allNodes = Main_With_IO.getAllNodes("Data.txt");
+                            int ind = User.FindIndexInList(allNodes, user);
+                            int index2 = User.FindIndexInList(allNodes, list.get(i));
+                            allNodes.get(ind).block(allNodes.get(index2), allNodes);
+                            JOptionPane.showMessageDialog(null, "Selected user is Blocked.");
+                            dispose();
+                            new SearchWindow(allNodes.get(ind),"");
                         } catch (IOException e1) {
+
+                        } catch (ClassNotFoundException e1) {
                             // TODO Auto-generated catch block
                             e1.printStackTrace();
                         }
-                        System.out.println("Blocked");
                     }
                 }
             }

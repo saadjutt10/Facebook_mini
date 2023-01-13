@@ -1,4 +1,3 @@
 
-        // for (User i : reco) {
-        // System.out.println(i.getUsername());
-        // }
+        graph = new ArrayList<>(V);
+        graph = ConstructGraph.reconstructGraph(allNodes);

@@ -72,13 +72,13 @@ public class Main implements Serializable {
         // User user1=allNodes.get(0);
         // user1.displayMatrix();
         // reset();
-        // ArrayList<User> allNodes = Main_With_IO.getAllNodes(fileName);
+        ArrayList<User> allNodes = Main_With_IO.getAllNodes(fileName);
 
-        new Login();
+        // new Login();
 
-        // V = allNodes.size();
-        // graph = new ArrayList<>(V);
-        // graph = ConstructGraph.reconstructGraph(allNodes);
+        V = allNodes.size();
+        graph = new ArrayList<>(V);
+        graph = ConstructGraph.reconstructGraph(allNodes);
         // ConstructGraph.displayMatrix();
         // Adding new node
         // Address ad5 = new Address("Multan", 22, 10);
@@ -88,8 +88,7 @@ public class Main implements Serializable {
 
         // // // System.out.println(allNodes.get(allNodes.size()-1));
         // // User.getUser(allNodes,"bakr1").addFriend(allNodes, "bakr2");
-        // allNodes.get(0).searching_Breadth(allNodes, "Bakr");
-        // allNodes.get(allNodes.size() - 1).addFriend(allNodes, "bakr2");
+        // allNodes.get(3).unblock(allNodes.get(3), allNodes);
         // ArrayList<User> ds = allNodes.get(0).getBlockedUsers();
         // System.out.println("Going dark");
         // for (User i : ds) {
@@ -109,18 +108,20 @@ public class Main implements Serializable {
         // Main_With_IO.writeData(allNodes, fileName);
         // System.out.println("=======================");
         // ArrayList<User> reco=User.friendsOfFriends(allNodes,allNodes.get(3));
-        // allNodes.get(0).block( allNodes.get(allNodes.size()-1),allNodes);
+        
+        // allNodes.get(0).block( allNodes.get(allNodes.size()-3),allNodes);
+        allNodes.get(0).unblock(allNodes.get(8), allNodes);
+        ArrayList<User> reco =allNodes.get(0).getBlockedUsers();
         // allNodes.get(0).unblock(allNodes.get(allNodes.size()-2), allNodes);
-        // allNodes.get(0).unblock(allNodes.get(3), allNodes);
     //   allNodes.get(0).resetBlockedUsers(allNodes);
 
         // allNodes.get(0).block(allNodes.get(3),allNodes);
         // ArrayList<User> reco= allNodes.get(0).getBlockedUsers();
         // System.out.println("=======================");
-        // System.out.println("Going dark");
-        // for (User i : reco) {
-        // System.out.println(i.getUsername());
-        // }
+        System.out.println("Going dark");
+        for (User i : reco) {
+        System.out.println(i.getUsername());
+        }
 
         // System.out.println("=======================");
         // allNodes.get(0).searching_Breadth(allNodes, "Bakr");

@@ -26,7 +26,7 @@ public class NameWindow extends JFrame {
 		Title.setBounds(100, 10, 300, 30);
 		add(Title);
 
-		username = new JLabel("Username:");
+		username = new JLabel("Enter you Username:");
 		username.setBounds(200, 60, 120, 20);
 		add(username);
 
@@ -91,26 +91,24 @@ public class NameWindow extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			if (e.getActionCommand() == "SUBMIT") {
 				try {
-					ArrayList<User> list = Main_With_IO.getAllNodes("Data.txt");
-					System.out.println(list.size());
-					// yu.getName()
-					for (User i : list) {
-						System.out.println(i.getName());
-						if (i.getUsername().equals(yu.getUsername())) {
-							System.out.println("Found that mf");
-							if(passF.getText().equals(i.getPassword())){
-								i.setUsername(UNF.getText());
-								i.setName(FNF.getText());
-								i.setLastName(LNF.getText());
-								Main_With_IO.writeData(list, "Data.txt");
-								dispose();
-								new HomeWindow(yu);
-							}
-							else{
-								UNF.setText("Wrong Password");
-							}
-							yu=i;
+
+					ArrayList<User> allNodes = Main_With_IO.getAllNodes("Data.txt");
+					int ind = User.FindIndexInList(allNodes, yu);
+					if (allNodes.get(ind).getUsername().equals(yu.getUsername())) {
+						if (allNodes.get(ind).getPassword().equals(passF.getText())) {
+							//
+							allNodes.get(ind).setUsername(UNF.getText());
+							allNodes.get(ind).setName(FNF.getText());
+							allNodes.get(ind).setLastName(LNF.getText());
+							Main_With_IO.writeData(allNodes, "Data.txt");
+							JOptionPane.showMessageDialog(null, "Name is changed.");
+							dispose();
+							new HomeWindow(allNodes.get(ind));
+						} else {
+							passF.setText("");
 						}
+					} else {
+						UNF.setText("Wrong UserName");
 					}
 				} catch (ClassNotFoundException | IOException e1) {
 					// TODO Auto-generated catch block

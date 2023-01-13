@@ -1,3 +1,5 @@
+
+//  package GUI;
 import java.awt.*;
 import java.awt.Color;
 import java.awt.event.*;
@@ -7,42 +9,39 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
-public class RecommendationWindow extends JFrame {
-    ArrayList<User> allNodes;
+public class FriendsFrame extends JFrame {
     ArrayList<User> list = new ArrayList<>();
     JPanel panels[];
-    // User user = Main_With_IO.getAllNodes("Data.txt").get(3);
 
-    RecommendationWindow(User user, String ac) throws ClassNotFoundException, IOException {
+    FriendsFrame(User user) throws ClassNotFoundException, IOException {
         setSize(800, 500);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
-        setTitle("Recommendation Window ha vro");
+        setTitle("Friends Window");
         setLayout(new BorderLayout(0, 20));
+
+        ArrayList<User> allNodes;
         allNodes = Main_With_IO.getAllNodes("Data.txt");
-        System.out.println("Herererkenrkenkjnf" + user.getUsername());
-        // Main.getGraph();
+        // System.out.println("Herererkenrkenkjnf" + user.getUsername());
+        Main.getGraph();
         Main.V = allNodes.size();
         Main.setGraph(ConstructGraph.reconstructGraph(allNodes));
         // Getting which recommendation to run
-        if (ac.equals("distance")) {
-            list = user.distanceSuggestions(allNodes);
-        } else if (ac.equals("fof")) {
-            list = User.friendsOfFriends(allNodes, user);
-        }
+
+        list = user.getFriends();
+
         int n = list.size();
         if (n < 4)
             n = 4;
 
         JPanel centerPanel = new JPanel();
         JScrollPane scrollPane = new JScrollPane(centerPanel);
-        // scrollPane.setForeground(Color.decode("#"+Main.DarkColor));
         centerPanel.setBackground(Color.decode("#" + Main.DarkColor));
         scrollPane.setPreferredSize(new Dimension(700, 400));
         centerPanel.setLayout(new GridLayout(n, 1, 30, 10));
         panels = new JPanel[list.size()];
 
-        MyActionListener alA = new MyActionListener(user, list, ac);
+        MyActionListener alA = new MyActionListener(user,list);
         for (int i = 0; i < panels.length; i++) {
             panels[i] = new JPanel();
             panels[i].setLayout(new GridLayout(1, 4));
@@ -71,17 +70,9 @@ public class RecommendationWindow extends JFrame {
             JPanel cornerPanel = new JPanel();
             {// Buttons
                 cornerPanel.setLayout(new GridLayout(2, 1, 50, 0));
-                JButton addBtn = new JButton("Add");
-                addBtn.setActionCommand(i + "Add");
+                JButton addBtn = new JButton("Remove");
+                addBtn.setActionCommand(i + "Remove");
                 addBtn.setPreferredSize(new Dimension(80, 30));
-                ArrayList<User> frndList = User.getUser(allNodes, user.getUsername()).getFriends();
-                if (frndList.size() >= 1) {
-                    if (frndList.contains(list.get(i))) {// Condition to
-                        // check if they are
-                        // already friends
-                        addBtn.setEnabled(false);
-                    }
-                }
 
                 JPanel addBtnPanel = new JPanel();
                 addBtnPanel.add(addBtn);
@@ -97,7 +88,7 @@ public class RecommendationWindow extends JFrame {
                 cornerPanel.add(addBtnPanel);
                 cornerPanel.add(settingBtnPanel);
 
-                ConstructGraph.displayMatrix();
+                // ConstructGraph.displayMatrix();
 
                 // cornerPanel.add(new JLabel(""));
                 // Adding actionListener
@@ -119,7 +110,7 @@ public class RecommendationWindow extends JFrame {
         // text
         JPanel topTextPanel = new JPanel();
         topTextPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-        JLabel topText = new JLabel("Here are your recommendations");
+        JLabel topText = new JLabel("Friends list");
         topText.setFont(new Font("Arial", Font.PLAIN, 25));
         topTextPanel.add(topText);
 
@@ -136,30 +127,26 @@ public class RecommendationWindow extends JFrame {
         add(topPanel, BorderLayout.NORTH);
         add(scrollPane, BorderLayout.CENTER);
         add(btnPanel, BorderLayout.SOUTH);
-        // Desing
-
         topPanel.setBackground(Color.decode("#" + Main.DarkColor));
         btnPanel.setBackground(Color.decode("#" + Main.DarkColor));
+
         // Action Listeners
         homeBtn.addActionListener(alA);
-
     }
 
     class MyActionListener implements ActionListener {
         User user;
         ArrayList<User> allNodes;
-        ArrayList<User> list;
-        String str;
+        ArrayList<User> flist;
 
         MyActionListener() {
 
         }
 
-        MyActionListener(User u, ArrayList<User> lis, String st) throws ClassNotFoundException, IOException {
+        MyActionListener(User u, ArrayList<User> list) throws ClassNotFoundException, IOException {
             user = u;
-            this.allNodes = Main_With_IO.getAllNodes("Data.txt");
-            list = lis;
-            str = st;
+            allNodes = Main_With_IO.getAllNodes("Data.txt");
+            flist = list;
         }
 
         public void actionPerformed(ActionEvent e) {
@@ -170,17 +157,16 @@ public class RecommendationWindow extends JFrame {
             } else {
                 String command = e.getActionCommand();
                 System.out.println(command);
-                for (int i = 0; i < 5; i++) {
-                    if (command.equals(i + "Add")) {
+                for (int i = 0; i < flist.size(); i++) {
+                    if (command.equals(i + "Remove")) {
                         try {
                             allNodes = Main_With_IO.getAllNodes("Data.txt");
                             int ind = User.FindIndexInList(allNodes, user);
-                            int index2 = User.FindIndexInList(allNodes, list.get(i));
+                            int index2 = User.FindIndexInList(allNodes, flist.get(i));
                             allNodes.get(ind).addFriend(allNodes, allNodes.get(index2).getUsername());
-                            JOptionPane.showMessageDialog(null, "User is added to friensList.");
+                            JOptionPane.showMessageDialog(null, "User is Unfriended.");
                             dispose();
-                            new RecommendationWindow(allNodes.get(ind),str);
-
+                            new FriendsFrame(allNodes.get(ind));
                         } catch (NullPointerException | IOException e1) {
                             // TODO Auto-generated catch block
                             e1.printStackTrace();
@@ -196,7 +182,7 @@ public class RecommendationWindow extends JFrame {
                             allNodes.get(ind).block(allNodes.get(index2), allNodes);
                             JOptionPane.showMessageDialog(null, "User is Blocked.");
                             dispose();
-                            new RecommendationWindow(allNodes.get(ind),str);
+                            new FriendsFrame(allNodes.get(ind));
                         } catch (IOException e1) {
                             // TODO Auto-generated catch block
                             e1.printStackTrace();
@@ -204,6 +190,7 @@ public class RecommendationWindow extends JFrame {
                             // TODO Auto-generated catch block
                             e1.printStackTrace();
                         }
+                        // System.out.println("Blocked");
                     }
                 }
             }
@@ -212,6 +199,6 @@ public class RecommendationWindow extends JFrame {
 
     public static void main(String[] args) throws ClassNotFoundException, IOException {
         ArrayList<User> re = Main_With_IO.getAllNodes("Data.txt");
-        new RecommendationWindow(re.get(1), "fof");
+        new FriendsFrame(re.get(0));
     }
 }

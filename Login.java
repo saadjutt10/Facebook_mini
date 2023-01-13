@@ -14,7 +14,8 @@ import javafx.scene.control.Label;
 // import javafx.scene.paint.Color;
 public class Login extends JFrame {
 
-    JTextField usernameTextField, passwordTextField;
+    JTextField usernameTextField;
+    JPasswordField  passwordTextField;
 
     Login() {
         setSize(800, 500);
@@ -50,7 +51,7 @@ public class Login extends JFrame {
         usernameTextField = new JTextField(20);
         JLabel passwordLabel = new JLabel("Password:");
         passwordLabel.setForeground(Color.white);
-        passwordTextField = new JTextField(20);
+        passwordTextField = new JPasswordField(20);
 
         // Create the login and sign up buttons
         JButton loginButton = new JButton("Login");
@@ -156,8 +157,7 @@ public class Login extends JFrame {
                             dispose();
                             new HomeWindow(User.getUser(allNodes, usernameTextField.getText()));
                         } else {
-                            passwordTextField.setForeground(Color.red);
-                            passwordTextField.setText("InCorrect Password");
+                            passwordTextField.setText("");
                             // passwordTextField.setForeground(Color.black);
                         }
                     } else {
