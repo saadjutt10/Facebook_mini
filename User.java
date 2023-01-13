@@ -158,6 +158,7 @@ public class User extends Person {
         return BlockedUsers.contains(temp);
     }
 
+   
     //////////// ********************Real Shit starts here************* */
 
     public boolean addFriend(ArrayList<User> allNodes, String nodeB) throws IOException {

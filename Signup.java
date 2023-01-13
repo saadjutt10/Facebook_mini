@@ -33,7 +33,7 @@ public class Signup extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 		getContentPane().setLayout(null);
-		this.getContentPane().setBackground(Color.decode("#"+Main.DarkColor));
+		this.getContentPane().setBackground(Color.decode("#" + Main.DarkColor));
 
 		TitleLabel = new JLabel("Sign Up");
 		TitleLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -117,7 +117,7 @@ public class Signup extends JFrame {
 
 		// TextFields
 		NTF = new JTextField("");
-		NTF.setBackground(Color.decode("#"+Main.notDarkColor));
+		NTF.setBackground(Color.decode("#" + Main.notDarkColor));
 		NTF.setForeground(Color.white);
 		NTF.setHorizontalAlignment(SwingConstants.CENTER);
 		NTF.setBounds(330, 60, 140, 20);
@@ -125,14 +125,14 @@ public class Signup extends JFrame {
 
 		LNTF = new JTextField("");
 		LNTF.setHorizontalAlignment(SwingConstants.CENTER);
-		LNTF.setBackground(Color.decode("#"+Main.notDarkColor));
+		LNTF.setBackground(Color.decode("#" + Main.notDarkColor));
 		LNTF.setForeground(Color.white);
 		LNTF.setBounds(330, 90, 140, 20);
 		getContentPane().add(LNTF);
 
 		IDTF = new JTextField("");
 		IDTF.setHorizontalAlignment(SwingConstants.CENTER);
-		IDTF.setBackground(Color.decode("#"+Main.notDarkColor));
+		IDTF.setBackground(Color.decode("#" + Main.notDarkColor));
 		IDTF.setForeground(Color.white);
 		IDTF.setBounds(330, 120, 140, 20);
 		getContentPane().add(IDTF);
@@ -140,34 +140,34 @@ public class Signup extends JFrame {
 		GTF = new JTextField("");
 		GTF.setHorizontalAlignment(SwingConstants.CENTER);
 		GTF.setBounds(330, 150, 140, 20);
-		GTF.setBackground(Color.decode("#"+Main.notDarkColor));
+		GTF.setBackground(Color.decode("#" + Main.notDarkColor));
 		GTF.setForeground(Color.white);
 		getContentPane().add(GTF);
 
 		PTF = new JPasswordField("");
 		PTF.setHorizontalAlignment(SwingConstants.CENTER);
-		PTF.setBackground(Color.decode("#"+Main.notDarkColor));
+		PTF.setBackground(Color.decode("#" + Main.notDarkColor));
 		PTF.setForeground(Color.white);
 		PTF.setBounds(330, 180, 140, 20);
 		getContentPane().add(PTF);
 
 		ATF = new JTextField("");
 		ATF.setHorizontalAlignment(SwingConstants.CENTER);
-		ATF.setBackground(Color.decode("#"+Main.notDarkColor));
+		ATF.setBackground(Color.decode("#" + Main.notDarkColor));
 		ATF.setForeground(Color.white);
 		ATF.setBounds(330, 210, 140, 20);
 		getContentPane().add(ATF);
 
 		HTF = new JTextField("");
 		HTF.setHorizontalAlignment(SwingConstants.CENTER);
-		HTF.setBackground(Color.decode("#"+Main.notDarkColor));
+		HTF.setBackground(Color.decode("#" + Main.notDarkColor));
 		HTF.setForeground(Color.white);
 		HTF.setBounds(330, 270, 140, 20);
 		getContentPane().add(HTF);
 
 		STF = new JTextField("");
 		STF.setHorizontalAlignment(SwingConstants.CENTER);
-		STF.setBackground(Color.decode("#"+Main.notDarkColor));
+		STF.setBackground(Color.decode("#" + Main.notDarkColor));
 		STF.setForeground(Color.white);
 		STF.setBounds(330, 293, 140, 20);
 		getContentPane().add(STF);
@@ -175,7 +175,7 @@ public class Signup extends JFrame {
 		CTF = new JTextField("");
 		CTF.setHorizontalAlignment(SwingConstants.CENTER);
 		CTF.setForeground(Color.white);
-		CTF.setBackground(Color.decode("#"+Main.notDarkColor));
+		CTF.setBackground(Color.decode("#" + Main.notDarkColor));
 		CTF.setBounds(330, 315, 140, 20);
 		getContentPane().add(CTF);
 
@@ -190,39 +190,45 @@ public class Signup extends JFrame {
 		@Override
 
 		public void actionPerformed(ActionEvent e) {
-			ArrayList<User> list = new ArrayList<>();
-			if (e.getActionCommand() == "Next") {
-				System.out.println("Here ");
-				if (NTF.getText().isEmpty() || LNTF.getText().isEmpty() || IDTF.getText().isEmpty()
-						|| PTF.getText().isEmpty() || GTF.getText().isEmpty() || ATF.getText().isEmpty()
-						|| HTF.getText().isEmpty() || STF.getText().isEmpty() || CTF.getText().isEmpty()) {
-					JOptionPane.showMessageDialog(null, "Please fill all the fields", "Error",
-							JOptionPane.ERROR_MESSAGE);
-					return;
-				}
-				if (PTF.getText().length() >= 8) {
-					Address a = new Address(CTF.getText(), Integer.parseInt(STF.getText()),
-							Integer.parseInt(HTF.getText()));
-					User d = new User(null, NTF.getText(), LNTF.getText(), Integer.parseInt(ATF.getText()),
-							GTF.getText(), null, PTF.getText(), IDTF.getText(), a);
-
-					dispose();
-					try {
-						list = Main_With_IO.getAllNodes("Data.txt");
-
-						list.add(d);
-						Main_With_IO.writeData(list, "Data.txt");
-						new AddProfileImg("user.png", d);
-					} catch (ClassNotFoundException | IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
+			ArrayList<User> list;
+			try {
+				list = Main_With_IO.getAllNodes("Data.txt");
+				if (e.getActionCommand() == "Next") {
+					if (!User.userExists(list, IDTF.getText())) {
+	
+						if (NTF.getText().isEmpty() || LNTF.getText().isEmpty() || IDTF.getText().isEmpty()
+								|| PTF.getText().isEmpty() || GTF.getText().isEmpty() || ATF.getText().isEmpty()
+								|| HTF.getText().isEmpty() || STF.getText().isEmpty() || CTF.getText().isEmpty()) {
+							JOptionPane.showMessageDialog(null, "Please fill all the fields", "Error",
+									JOptionPane.ERROR_MESSAGE);
+							return;
+						}
+						if (PTF.getText().length() >= 8) {
+	
+							Address a = new Address(CTF.getText(), Integer.parseInt(STF.getText()),
+									Integer.parseInt(HTF.getText()));
+							User d = new User(null, NTF.getText(), LNTF.getText(), Integer.parseInt(ATF.getText()),
+									GTF.getText(), null, PTF.getText(), IDTF.getText(), a);
+	
+							dispose();
+								
+								list.add(d);
+								Main_With_IO.writeData(list, "Data.txt");
+								new AddProfileImg("user.png", d);
+	
+						}
+					}else{
+						IDTF.setText("User Already Exists");
 					}
-
+				} else if (e.getActionCommand() == "Home") {
+					dispose();
+					new Login();
 				}
-			} else if (e.getActionCommand() == "Home") {
-				dispose();
-				new Login();
+			} catch (ClassNotFoundException | IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
+			
 		}
 	}
 
