@@ -1,4 +1,4 @@
-# Social Network based on Graphs
+# Social Network based on Graphs(Run main.java and enjoy)
 Java based DSA project(GUI) with FileHandling, which uses the concepts of graphs, queues and stack.
 Graph is run time modifiedable:
   Changes the links when one User(node) becomes friend with other User(node)
